@@ -1,54 +1,62 @@
 # Requirements
 
-First version. It will change once I know the real controller settings and what's possible on site.
+Draft. It will change once I know the real controller settings and what's possible on site.
 
-## Room
+Scope: one cold room (main chamber with a smaller second chamber connected to it) with several measurement points inside it.
 
-| ID | Requirement | Priority |
-|---|---|---|
-| R-01 | Measure air temperature in the room without affecting the existing controller | High |
-| R-02 | Range at least -30 to +20 °C so both normal work and defrost are covered | High |
-| R-03 | Separate temperature sensors for the main chamber and the second chamber | Medium |
-| R-04 | Recognize defrost and don't send a high temperature alarm during normal defrost, but do send it if the temperature doesn't come back down in time | High |
+## Phase 1: first prototype
 
-## Equipment health
+### Temperature
 
-| ID | Requirement | Priority |
-|---|---|---|
-| R-05 | Track the state of each main part separately: compressor, each condenser fan, evaporator fan, defrost, power supply | High |
-| R-06 | Detect when each part is running, only with isolated or non-contact sensors | High |
-| R-07 | Log anomalies for each part (too many starts per hour, running too long, current higher or lower than normal, defrost taking longer than usual, etc.) | High |
-| R-08 | Count how often anomalies happen on each part and warn when they get more frequent, meaning the part may need service soon | Medium |
-| R-09 | When something breaks, say which part is most likely at fault and when it happened | High |
+| ID | Requirement | Priority | How I'll check it |
+|---|---|---|---|
+| R-01 | Measure air temperature at several points in the cold room without affecting the existing controller | High | Installed sensors are fully separate from the controller and its probe |
+| R-02 | At least these points: main chamber, second chamber, near the evaporator air outlet | High | One sensor per point, each with its own ID |
+| R-03 | Range at least -30 to +20 °C | High | Sensor datasheet and bench test |
+| R-04 | Accuracy about +/-0.5 °C (to be confirmed) | High | Comparison with a reference thermometer |
+| R-05 | Recognize defrost and don't alarm during a normal one, but alarm if the temperature doesn't come back down in time | High | Count false alarms over several weeks of real defrost cycles |
 
-## Notifications and app
+### Data
 
-| ID | Requirement | Priority |
-|---|---|---|
-| R-10 | Send a notification to the owner's phone within a few minutes, even when nobody is at the shop | High |
-| R-11 | Send an alarm when the device stops sending data (power cut, Wi-Fi down, broken sensor) | High |
-| R-12 | One app with the current state of each part, history and the list of anomalies | High |
-| R-13 | Alarm limits and delays can be changed in the app | Medium |
+| ID | Requirement | Priority | How I'll check it |
+|---|---|---|---|
+| R-06 | Every reading has a time (UTC), a unit and a sensor ID | High | Server rejects readings without them |
+| R-07 | Detect missing, old or impossible readings | High | Tests with unplugged sensor and fake values |
+| R-08 | Keep data on the device when Wi-Fi is down and send it later | High | Turn off Wi-Fi for an hour, check that no data is lost |
 
-## Data
+### Alerts and app
 
-| ID | Requirement | Priority |
-|---|---|---|
-| R-14 | Every reading has a time (UTC), a unit and a sensor ID | High |
-| R-15 | Detect missing, old or impossible readings | High |
-| R-16 | Keep data on the device when Wi-Fi is down and send it later | Medium |
+| ID | Requirement | Priority | How I'll check it |
+|---|---|---|---|
+| R-09 | Send a notification to the owner's phone within a few minutes of a problem | High | Measure time from a simulated problem to the phone |
+| R-10 | Alert when the device stops sending data (power cut, Wi-Fi down, broken device) | High | Unplug the device, check that the alert comes |
+| R-11 | Simple app with current values and history | Medium | Used by my parents for a few weeks |
+| R-12 | Alarm limits and delays can be changed | Medium | Change a limit, check it takes effect |
 
-## Cost and installation
+### Cost and installation
 
-| ID | Requirement | Priority |
-|---|---|---|
-| R-17 | Hardware cost much lower than a ready-made system (500-800 euros). Exact budget after I choose the sensors | High |
-| R-18 | The low-voltage part can be installed by a normal person, anything on mains is done by an electrician | Medium |
+| ID | Requirement | Priority | How I'll check it |
+|---|---|---|---|
+| R-13 | Hardware cost far below a ready-made system (500-800 euros). Exact budget after choosing sensors | High | Parts list with real prices |
+| R-14 | The low-voltage part can be installed without special skills. Anything on mains is done by an electrician | Medium | Written installation steps |
+
+## Phase 2: research goals
+
+These start only after Phase 1 works reliably and I have several weeks of normal data.
+
+| ID | Goal |
+|---|---|
+| G-01 | Detect when the compressor and each condenser fan are running, only with isolated or non-contact sensors |
+| G-02 | Track defrost start and duration |
+| G-03 | Log anomalies for each part (too many starts per hour, running too long, unusual current, defrost taking longer than usual) |
+| G-04 | Track how often anomalies happen on each part and warn when they become more frequent |
+| G-05 | When something breaks, show the most likely faulty part and the time |
+
+Whether G-03 to G-05 are possible with cheap sensors is an open research question. I'll report what works and what doesn't.
 
 ## Open questions
 
-- What accuracy is really needed? +/-0.5 °C seems fine for a freezer, need to confirm.
-- How often to take readings? Probably every 30-60 seconds, but defrost and compressor starts may need faster.
+- Is +/-0.5 °C really needed, or is +/-1 °C enough for a freezer?
+- How often to take readings? Probably every 30-60 seconds.
 - How should notifications come: Telegram, SMS, a call? It has to be something my parents will actually notice on a weekend.
-- If the shop has no power at all, the device can't send anything. So the server has to notice that the device went quiet (R-11).
-- What counts as "normal" for each part? I'll need a few weeks of data from the working unit first.
+- If the shop has no power at all, the device can't send anything. So the server has to notice the silence (R-10).
