@@ -1,8 +1,10 @@
 # Smart Refrigeration Monitoring System
 
-A cheap monitoring system for small cold rooms. It keeps an eye on every main part of the refrigeration unit, warns the owner when something breaks or starts to go wrong, and shows roughly where the problem is.
+A low-cost monitoring system for small cold rooms. The first goal is simple and reliable: measure the temperature, notice when the system goes quiet, and alert the owner's phone. The longer-term goal is to watch each main part of the refrigeration unit and catch problems before they turn into a breakdown.
 
-Status: very early. Right now I'm studying the real installation and writing down requirements. No hardware bought and no code written yet. See [docs/roadmap.md](docs/roadmap.md).
+## Current status
+
+Research and requirements phase. So far I have surveyed the real installation, identified the equipment from nameplates and photos, and written the requirements and a proposed architecture. No hardware has been bought, no code has been written and nothing has been tested yet. Progress is tracked in [docs/roadmap.md](docs/roadmap.md).
 
 ## Why I'm doing this
 
@@ -14,66 +16,99 @@ From November 2 to November 9, 2026 my parents were on a business trip and I had
 
 It was my fault and I felt really bad about it. That's why I decided to build a monitoring system for our cold room myself. I want my parents to stop spending their weekends driving there to look at a thermometer, and I don't want something like this to happen again.
 
-## What I want to build
+## The problem
 
-Not just a thermometer that sends a message. I want the system to watch every important part of the unit: the compressor, the condenser fans, the evaporator, defrost, the room temperature and the power supply.
+Small shops and workshops keep all their stock in one or two cold rooms, but they usually have no monitoring at all, because commercial systems cost more than they can justify. A failure is noticed only when someone comes by and looks. If that happens a day later, the stock is already lost.
 
-The idea:
+## Objectives
 
-- If one part starts behaving strangely, for example the compressor turns on and off too often or a fan draws more current than usual, the system logs it as an anomaly.
-- If the anomalies on one part keep getting more frequent, that part is probably close to failing or needs service. Then you can call a technician before it breaks, not after.
-- If something does break, the owner gets a notification right away with the time and the most likely place of the fault (for example "condenser fan 2 stopped" instead of just "temperature too high"). That way you can react quickly and save the goods.
-- Everything is in one app, so you can check the cold room from home.
+Phase 1, first prototype:
 
-The first system goes into my parents' cold room. If it works well there, I want to offer it to the other shops and workshops near the warehouses, because they have the same problem and also can't pay for expensive systems.
+1. Measure the air temperature reliably at several points inside the cold room.
+2. Recognize normal defrost cycles, so the system doesn't send false alarms every few hours.
+3. Send an alert to the owner's phone when the temperature stays out of range.
+4. Send an alert when the device stops reporting (power cut, Wi-Fi down, dead sensor).
+5. Keep a history of all readings and show it in a simple app.
+6. Keep the hardware cost far below a commercial system.
 
-## The installation
+Phase 2, research goal:
 
-The first test site is the real cold room in our shop:
+7. Watch the state of each main part (compressor, condenser fans, evaporator, defrost, power supply).
+8. Log anomalies for each part and track how often they happen. If they become more frequent, the part probably needs service.
+9. When something breaks, point to the most likely faulty part and the time it happened.
 
-| Part | Model |
-|---|---|
-| Controller | Elitech ETC-974 (temperature and defrost controller) |
-| Compressor | InvoTech hermetic scroll compressor, 3-phase 380-420 V |
-| Condenser | FNH-49.9/180 air-cooled condenser with two fans (one was recently replaced with a YWF4E-400S) |
-| Evaporator | DD-6.0/30 low-temperature unit cooler inside the room |
-| Room | Main chamber and a smaller second chamber connected to it, around -18 to -20 °C |
+Phase 2 only starts after Phase 1 works reliably and I have collected enough normal operating data to know what "abnormal" looks like.
 
-More details in [docs/site-survey.md](docs/site-survey.md).
+Expected outcome of Phase 1: a working, tested prototype installed in our cold room, with documented hardware, firmware, server code, test results and real cost.
 
-## Rules I follow
+## Scope
+
+One cold room, the one in my parents' shop. Inside it there is a main chamber and a smaller second chamber connected to it. This is one refrigerated space served by one refrigeration unit, not two separate rooms, so it is treated as one cold room with several measurement points.
+
+If the system works well there, I want to offer it to the other shops and workshops near the warehouses later. That is outside the scope of this project for now.
+
+## Equipment
+
+| Part | Model | How I know |
+|---|---|---|
+| Controller | Elitech ETC-974 (temperature and defrost controller) | Nameplate |
+| Compressor | InvoTech hermetic scroll compressor, 3-phase 380-420 V | Nameplate (full model number not readable yet) |
+| Condenser | FNH-49.9/180 air-cooled condenser, outdoors | Nameplate |
+| Condenser fan | YWF4E-400S, 220 V, 180 W | Motor label and purchase receipt |
+| Evaporator | DD-6.0/30 low-temperature unit cooler, indoors | Nameplate |
+| Room temperature | Around -18 to -20 °C | Family's estimate, to be checked on the controller |
+
+Details, and everything that is still unverified, are in [docs/site-survey.md](docs/site-survey.md).
+
+## Ground rules
 
 1. The system only watches. It never controls, reprograms or bypasses the existing controller. If my device fails, the cold room keeps working the same way as before.
 2. The microcontroller is never connected directly to 230 V or 380 V. Anything on the mains side has to be isolated and installed by an electrician.
 3. If a value isn't confirmed by a nameplate, a manual or a measurement, I mark it as unverified.
 
-## Planned structure
+## Proposed architecture
 
 ```
-sensors on each part of the unit + room temperature
+temperature sensors in the cold room
+(later: sensors on each part of the unit)
                  |
         microcontroller (probably ESP32)
                  |   Wi-Fi, stores data locally if Wi-Fi is down
                  v
            server (Python)
-   checks data, finds anomalies, guesses the fault
+     checks data, decides when to alert
                  |
               database
                  |
-     app: live status, history, notifications
+     app: live values, history, notifications
 ```
 
-Details and open questions are in [docs/architecture.md](docs/architecture.md). Every important decision and the reason for it goes into [docs/decisions.md](docs/decisions.md).
+This is a proposal, not a final design. Details and open questions: [docs/architecture.md](docs/architecture.md).
 
-## Folders
+## Development plan
 
-| Folder | What's inside |
-|---|---|
-| `docs/` | Site survey, requirements, architecture, roadmap, decisions |
-| `hardware/` | Sensors, datasheets, wiring notes (later) |
-| `firmware/` | Microcontroller code (later) |
-| `backend/` | Server code (later) |
-| `dashboard/` | The app (later) |
+Hardware: choose temperature sensors that work at -30 °C and survive defrost moisture, test them on my desk against a reference thermometer, then design a small low-voltage box with the microcontroller and power supply. For Phase 2, choose safe ways to detect if the compressor and fans are running (for example current clamps installed by an electrician).
+
+Software: microcontroller firmware that reads sensors, keeps data when Wi-Fi is down and sends it later. A Python server that checks and stores the readings and sends alerts. A simple app to see current values and history.
+
+The full step-by-step plan is in [docs/roadmap.md](docs/roadmap.md), and the reasons behind design choices are in [docs/decisions.md](docs/decisions.md).
+
+## Testing
+
+Every part gets tested before it goes into the real cold room: sensor accuracy against a reference thermometer, behavior when a sensor is unplugged, when Wi-Fi drops and when power is cut, and false alarms during real defrost cycles. The plan is in [docs/testing-plan.md](docs/testing-plan.md). No tests have been done yet.
+
+## Documentation
+
+Done so far:
+
+- [Site survey](docs/site-survey.md)
+- [Requirements](docs/requirements.md)
+- [Proposed architecture](docs/architecture.md)
+- [Roadmap](docs/roadmap.md)
+- [Decision log](docs/decisions.md)
+- [Testing plan](docs/testing-plan.md)
+
+Will be added when the work gets there: hardware design and parts list with real prices, firmware, server, experimental results, calibration and validation, and known limitations.
 
 ## Author
 
