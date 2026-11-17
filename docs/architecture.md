@@ -1,13 +1,13 @@
 # Architecture
 
-First idea only. Nothing here is final until stages 2 and 3 of the [roadmap](roadmap.md) are done.
+Status: PROPOSED. Nothing here is final. It will change after the equipment is fully identified and the sensors are tested (stages 2-4 of the [roadmap](roadmap.md)).
+
+## 1. Overview
 
 ```
-               ONE COLD ROOM
-  room: temperature in the main and second chamber
-  outdoor unit: compressor, 2 condenser fans
-  evaporator: fan, defrost, air temperature in and out
-  power: is there mains power
+            ONE COLD ROOM
+  main chamber, second chamber, evaporator outlet
+  (Phase 2: compressor, condenser fans, defrost, power)
                    |
        protection and isolation
                    |
@@ -17,70 +17,82 @@ First idea only. Nothing here is final until stages 2 and 3 of the [roadmap](roa
           Wi-Fi (MQTT or HTTP)
                    |
              server (Python)
-   checks data, logs anomalies, guesses the faulty part
+     checks data, stores it, sends alerts
                    |
                 database
                    |
         app + phone notifications
 ```
 
-The data is organized as one cold room with several parts, and each part has its own sensors and its own anomaly history.
+The data is organized as one cold room with several measurement points. In Phase 2 each part of the unit also gets its own channels.
 
-## What I want to measure on each part
+## 2. Verified equipment
 
-First ideas. Each sensor still needs to be checked for safety and price.
+What I actually know about the installation is in the [site survey](site-survey.md). Short version: Elitech ETC-974 controller, InvoTech scroll compressor, FNH-49.9/180 outdoor condenser with a YWF4E-400S fan, DD-6.0/30 evaporator. The number of fans, controllers and refrigerant circuits is not verified yet.
 
-| Part | What to watch | Possible sensor |
-|---|---|---|
-| Room | Air temperature in both chambers | Temperature probes |
-| Room | Door left open | Magnetic door sensor |
-| Compressor | Is it running, starts per hour, how long it runs, current | Current clamp on the cable (installed by an electrician) |
-| Compressor | Discharge pipe temperature | Temperature sensor on the outside of the pipe |
-| Condenser fans | Is each fan running | Current clamp or vibration sensor on each fan |
-| Condenser | Air temperature in and out | Two temperature sensors |
-| Evaporator | Air temperature in and out, coil temperature | Temperature sensors |
-| Defrost | When it starts and how long it takes | From the coil temperature curve |
-| Power | Is there mains power | Isolated power detection |
+## 3. Candidate sensors
 
-## How faults could be found
+None of these are chosen. Each one still needs to be checked against the datasheet, tested and priced.
 
-The server compares the parts with each other. Some examples of what I want it to recognize:
+| Measurement | Candidates | Why it might fit | Concerns |
+|---|---|---|---|
+| Room air temperature | DS18B20 waterproof probe | Cheap, digital, several on one wire | Need to check accuracy at -20 °C and moisture during defrost |
+| Room air temperature | PT1000 + converter (for example MAX31865) | More accurate and stable | More expensive, more parts |
+| Compressor / fan running (Phase 2) | Split-core current transformer | Doesn't touch the wiring, clamps around one wire | Has to be installed by an electrician in the panel |
+| Fan running (Phase 2) | Vibration sensor on the fan housing | No mains work at all | Less reliable, may pick up vibration from the compressor |
+| Door open (Phase 2) | Magnetic reed switch | Very cheap | Need a safe way to mount it on a freezer door |
+| Mains power present | Isolated power detection module | Tells a power cut apart from a broken unit | Mains side, electrician |
 
-| What the system sees | Most likely problem |
+## 4. Proposed measurement methods
+
+Phase 1:
+
+- One temperature probe in the main chamber, one in the second chamber, one near the evaporator air outlet. Exact places chosen on site, away from the door and from direct airflow where needed.
+- Readings every 30-60 seconds.
+- The device sends a short "I'm alive" message regularly. If the server doesn't hear from it for a few minutes, that's an alert.
+- Defrost detection from the temperature curve near the evaporator (temperature rises fast and comes back on a regular schedule). To be tested on real data.
+
+Phase 2 (research):
+
+- Compressor and fan state from current, with the sensors installed by an electrician.
+- Count starts per hour, run time and defrost duration for each part, and compare them with normal values collected over several weeks.
+
+## 5. Fault hypotheses (not validated)
+
+These are ideas for Phase 2, based on how refrigeration units usually work. None of them are implemented or tested. I'll check them against real data and with the technician who services our unit.
+
+| What the system might see | Possible cause |
 |---|---|
 | Room getting warmer, compressor not running, power is on | Compressor, its contactor or the controller |
 | Room getting warmer, nothing running, no power | Power cut |
 | Compressor running, one condenser fan has no current, condenser getting hot | That condenser fan |
-| Compressor running for a very long time, air in and out of the condenser almost the same temperature | Dirty condenser or low refrigerant |
-| Defrost taking longer each time, coil stays cold | Ice building up, defrost heater or its sensor |
+| Compressor running for a very long time, room still not cold enough | Dirty condenser, low refrigerant or a fan problem |
+| Defrost taking longer each time | Ice building up, defrost heater or its sensor |
 | Compressor turning on and off many times per hour | Short cycling: controller settings, pressure switch or refrigerant |
 | Room warm but everything running normally | Door open or a lot of warm goods just loaded |
 
-These are guesses based on how refrigeration units usually work. I'll adjust them after I collect real data and talk to the technician who services our unit.
-
-## Example reading
+## 6. Example reading
 
 ```json
 {
   "device_id": "node-01",
-  "sensor_id": "compressor-current",
-  "part": "compressor",
-  "metric": "current",
-  "value": 9.8,
-  "unit": "A",
+  "sensor_id": "main-chamber-air",
+  "metric": "temperature",
+  "value": -18.6,
+  "unit": "degC",
   "timestamp_utc": "2026-11-17T10:00:00Z",
   "quality": "good",
   "sequence": 1
 }
 ```
 
-`quality` is `good`, `suspect` or `bad` (for example when a sensor is disconnected or the value is impossible). `sequence` helps find lost or repeated messages. `part` links the reading to a part, so anomalies can be counted for each part separately.
+`quality` is `good`, `suspect` or `bad` (for example when a sensor is disconnected or the value is impossible). `sequence` helps find lost or repeated messages. The value above is an example, not a measurement.
 
-## Open questions
+## 7. Open questions
 
-- Which temperature sensors work at -20 °C and survive the moisture during defrost? DS18B20 probes are cheap, PT100/PT1000 is more accurate but needs extra parts.
-- Current clamps or vibration sensors for the fans: which is cheaper and more reliable?
-- One microcontroller or two (one inside, one at the outdoor unit)? Depends on cable length.
+- DS18B20 or PT1000? Depends on the bench test at freezer temperature.
+- One microcontroller or two? Depends on cable length and where power is available.
 - MQTT or simple HTTP?
 - Database: SQLite to start, maybe InfluxDB or TimescaleDB later.
-- How to define "normal" for each part: fixed limits at first, later limits learned from the collected data.
+- Where does the server run: a cheap cloud server, or a Raspberry Pi at home?
+- How to send notifications: Telegram bot is the easiest to start with.
