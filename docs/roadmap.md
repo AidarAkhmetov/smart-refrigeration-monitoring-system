@@ -1,19 +1,19 @@
 # Roadmap
 
-Scope: one cold room (main chamber + second chamber connected to it).
+Scope: one large cold room (about 106 m2) that replaces the old small one.
 
 ## Phase 1: monitoring prototype
 
 | # | Stage | Finished when | Status |
 |---|---|---|---|
 | 1 | Site survey and requirements | Equipment identified, requirements written | In progress |
-| 2 | Exact equipment data | Controller manual and settings, clean compressor nameplate, number of fans and controllers checked on site | Not started |
+| 2 | Exact equipment data | Compressor/condensing unit and condenser identified, evaporator nameplate read, setpoint and defrost settings of the new room known, door and evaporator positions marked on a room sketch | Not started |
 | 3 | Sensor choice and safety check | Temperature sensors chosen; anything on mains checked by an electrician | Not started |
 | 4 | Bench prototype | Sensors compared with a reference thermometer on my desk, low voltage only | Not started |
 | 5 | Firmware | Reads sensors, stores data offline, survives unplugged sensor, Wi-Fi loss and restart | Not started |
 | 6 | Server | Receives, checks and stores data, has automated tests | Not started |
 | 7 | App and notifications | Live values, history, phone alerts, "device offline" alert | Not started |
-| 8 | Pilot in the real cold room | Runs for several weeks; false alarms during defrost counted and fixed | Not started |
+| 8 | Pilot in the new cold room | Runs for several weeks; false alarms during defrost counted and fixed | Not started |
 
 ## Phase 2: equipment health (research)
 

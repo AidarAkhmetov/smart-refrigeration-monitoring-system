@@ -5,6 +5,7 @@ I only add new entries at the bottom and don't change old ones, so later I can s
 Status:
 
 - Confirmed: decided, won't change without a strong reason.
+- Replaced: no longer valid, a later entry explains why.
 - Provisional: current choice, may change after testing.
 
 ---
@@ -23,7 +24,7 @@ Not chosen: Reading data directly from the controller. Maybe later, but only if 
 
 ## 2026-11-17: One cold room, several measurement points
 
-Status: Confirmed
+Status: Replaced by "The target is the new large cold room" below
 
 Decision: The installation is treated as one cold room with several measurement points (main chamber, second chamber, evaporator outlet), not as separate rooms.
 
@@ -33,7 +34,7 @@ Why: The main and the second chamber are one refrigerated space served by one un
 
 ## 2026-11-17: Only equipment from this cold room
 
-Status: Confirmed
+Status: Replaced by "The target is the new large cold room" below
 
 Decision: The survey only lists equipment that belongs to this cold room. Parts bought around the same time for a different refrigerator are left out.
 
@@ -84,3 +85,30 @@ Decision: Write the server in Python.
 Why: Simple to start with, and it has good libraries for working with time series data, for web servers and for tests.
 
 Not decided yet: MQTT or HTTP, which database, where the server runs.
+
+---
+
+## 2026-11-17: Own sensors, no connection to the controller
+
+Status: Confirmed
+
+Decision: All measurements come from the system's own sensors. Nothing is connected to the ETC-974 controller.
+
+Why: The ETC-974 manual shows no data port. The only connector is for a copy card that copies settings between controllers. So there is no supported way to read data from it, and this confirms the "only watches" decision above.
+
+---
+
+## 2026-11-17: The target is the new large cold room
+
+Status: Confirmed
+
+Decision: The system is designed for the new large cold room (about 106 m2 floor area, 3.5 m ceiling), not for the small room that broke down. This replaces two earlier entries: "One cold room, several measurement points" (the main and second chamber belonged to the small room) and "Only equipment from this cold room" (the evaporator and refrigerant I had left out are exactly the ones bought for the new room).
+
+Why: The small room is going to be taken down and the new room replaces it. The task stays the same: keep the goods safe and alert us in time.
+
+What changes:
+
+- The old compressor, condenser and evaporator are no longer part of the project.
+- Known equipment for the new room: ETC-974 controller, HLD-450-36/28-6 evaporator, R404A refrigerant, a YWF4E-400S fan. The compressor and condenser are not known yet.
+- The room is about 4-5 times larger, so it needs more measurement points spread across it, and the alert has to react to the warmest point.
+- Phase 1 (temperature and alerts) can be designed now. Phase 2 sensors wait until the outdoor unit is identified.

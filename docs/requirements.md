@@ -2,7 +2,7 @@
 
 Draft. It will change once I know the real controller settings and what's possible on site.
 
-Scope: one cold room (main chamber with a smaller second chamber connected to it) with several measurement points inside it.
+Scope: one large cold room (about 106 m2 floor area, 3.5 m ceiling) with several measurement points spread across it. The equipment of the new room is not fully known yet, see the [site survey](site-survey.md).
 
 ## Phase 1: first prototype
 
@@ -11,7 +11,7 @@ Scope: one cold room (main chamber with a smaller second chamber connected to it
 | ID | Requirement | Priority | How I'll check it |
 |---|---|---|---|
 | R-01 | Measure air temperature at several points in the cold room without affecting the existing controller | High | Installed sensors are fully separate from the controller and its probe |
-| R-02 | At least these points: main chamber, second chamber, near the evaporator air outlet | High | One sensor per point, each with its own ID |
+| R-02 | At least these points: near the evaporator air outlet, the far end of the room from the evaporator, near the door, and the middle of the room. Exact places chosen once the evaporator and the door positions are known | High | One sensor per point, each with its own ID; positions marked on a room sketch |
 | R-03 | Range at least -30 to +20 °C | High | Sensor datasheet and bench test |
 | R-04 | Accuracy about +/-0.5 °C (to be confirmed) | High | Comparison with a reference thermometer |
 | R-05 | Recognize defrost and don't alarm during a normal one, but alarm if the temperature doesn't come back down in time | High | Count false alarms over several weeks of real defrost cycles |
@@ -56,6 +56,8 @@ Whether G-03 to G-05 are possible with cheap sensors is an open research questio
 
 ## Open questions
 
+- What setpoint will the new room have? The alarm limits depend on it.
+- How many measurement points does a room this size really need? Probably more than four, especially if goods are stacked high. To be decided after looking at how the air moves in the finished room.
 - Is +/-0.5 °C really needed, or is +/-1 °C enough for a freezer?
 - How often to take readings? Probably every 30-60 seconds.
 - How should notifications come: Telegram, SMS, a call? It has to be something my parents will actually notice on a weekend.

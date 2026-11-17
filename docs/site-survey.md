@@ -1,38 +1,42 @@
 # Site survey
 
-My notes from going through the installation and taking photos of every nameplate I could reach. Each value is marked by where it comes from. I'll update this as I get better photos and the manuals.
+My notes about the cold room and the equipment I have access to. Each value is marked by where it comes from. I'll update this as I get nameplate photos and manuals.
 
 Date: November 17, 2026
 
 Where the information comes from:
 
 - Nameplate: read from the label on the equipment.
+- Packaging label / manual: from the controller's box and its manual.
 - Receipt: from the purchase document.
+- Building plan: from the floor plan of the building.
 - Family: what my parents told me or what I know from working there. Needs to be checked on site.
 - Unverified: I'm not sure yet.
 
+## Change of target room
+
+At first I surveyed the small cold room that broke down in November. It turned out that this small room is going to be taken down. A much larger cold room replaces it, and this is the room the monitoring system is built for. The goal stays the same: keep the goods safe and warn us early when something goes wrong.
+
+What I wrote earlier about the small room (its compressor, condenser and evaporator) no longer applies to this project, so it was removed from this survey. The old version is still in the Git history.
+
 ## The room
 
-The cold room in my parents' fish shop is used as a freezer for all the goods. It's one refrigerated space with:
-
-- the main chamber, about half of the room
-- a smaller second chamber connected to the main one, about a quarter
-- the entrance, the last quarter
+One large refrigerated room. On the building plan it is not a rectangle but a four-sided room that is narrower at one end.
 
 | What | Value | Source |
 |---|---|---|
-| Ceiling height | 3.5 m | Building plan |
-| Normal temperature | Around -18 to -20 °C | Family |
-| Temperature during defrost | Up to about +10 °C | Family, unverified. Could be the evaporator coil temperature, not the room air |
-| How cold air gets into the second chamber | Unknown | Unverified |
+| Wall lengths | 12.36 m, 7.11 m, 11.75 m, 10.73 m (going around the room: left, top, right, bottom on the plan) | Building plan |
+| Floor area | 106.2 m2 | Building plan |
+| Ceiling height | 3.5 m | Building plan, given for the whole floor. To check in this room |
+| Volume | About 370 m3 (106.2 m2 x 3.5 m) | My calculation, depends on the ceiling height |
+| Inner partitions, door position | Unknown | Unverified |
+| Planned temperature | Not decided yet. We keep frozen fish, so probably a freezer like the old room | Family, unverified |
 
-I'll check the real setpoint and defrost settings in the controller menu (only looking, not changing anything).
+Quick check of the plan: if the 7.11 m and 10.73 m walls are parallel, the other two walls put them about 11.75 m apart, and the area comes out at about 105 m2. That is close to the 106.2 m2 on the plan, so the numbers fit together.
 
-## Photos
+The room is about 4-5 times larger than the old one. That matters for the sensors: one probe can't represent the whole room, so I'll need several measurement points spread across it, including the far end from the evaporator and the area near the door.
 
-All the outdoor close-up photos show parts of one and the same outdoor refrigeration unit. I took them close so the labels could be read. The wide outdoor photos show that same unit as a whole. The indoor photos show the evaporator. The photos are not in this repository.
-
-## Equipment
+## Equipment I have access to
 
 ### Controller: Elitech ETC-974
 
@@ -40,71 +44,52 @@ All the outdoor close-up photos show parts of one and the same outdoor refrigera
 |---|---|---|
 | Power | 230 VAC +/-10%, 50/60 Hz | Packaging label |
 | Working temperature | -5 to +55 °C | Packaging label |
-| Probe | NTC, about +/-0.5 °C, 2 m cable | Packaging label |
-| Exact version and manual | Unknown | Unverified |
-| Data interface (RS-485, Modbus, etc.) | Unknown | Unverified. Not assuming any until the manual confirms it |
+| Probe | NTC, -50 to +120 °C, 2 m cable | Packaging label |
+| Accuracy | +/-0.5 °C from -30 to +50 °C | Packaging label |
+| Display resolution | 1 °C or 0.1 °C | Packaging label |
+| Data interface | None. The manual only mentions a copy card for settings, no RS-485 or Modbus | Manual |
+| Which room it will control | Not confirmed for the new room yet | Unverified |
 
-My family says there is one controller for this cold room. I have two photos of ETC-974 panels that look a bit different, so I still need to check on site which panel belongs to this unit.
+Because the controller has no data port, the monitoring system uses its own sensors and doesn't connect to the controller at all.
 
-### Compressor: InvoTech hermetic scroll
-
-| What | Value | Source |
-|---|---|---|
-| Power | 380-420 V, 3-phase, 50 Hz (or 460 V / 60 Hz) | Nameplate |
-| MRC (max running current) | 12.2 A | Nameplate |
-| LRC (locked rotor current) | 60 A | Nameplate |
-| Max pressure | H 3.2 / L 2.0 MPa | Nameplate, partly readable |
-| Oil | POE | Nameplate |
-| Full model number | Unknown | A pipe clamp covers the start of it |
-
-LRC is the current at start-up when the motor isn't turning yet, not the normal running current. I won't pick a current sensor based on these numbers until I have a clean nameplate and the datasheet.
-
-### Condenser: FNH-49.9/180
+### Evaporator: HLD-450-36/28-6
 
 | What | Value | Source |
 |---|---|---|
-| Capacity on the label | 49.9 kW | Nameplate |
-| Surface | 180 m2 | Nameplate |
-| Location | Outdoors, part of the outdoor unit | Photos and family |
+| Model | HLD-450-36/28-6 | Receipt |
+| Quantity | 1 | Receipt |
+| Capacity, fans, voltage, defrost type | Unknown | Need the nameplate or the datasheet |
+| Position in the room | Unknown | Unverified |
 
-Funny thing: the nameplate says "Unit Cooler", but in supplier catalogs the FNH series is listed as air-cooled condensers, and it's obviously mounted outside as part of the outdoor unit.
+It was bought in November 2026 for the new room. I'm not guessing its capacity or fan data from the model name. I'll read them from the nameplate once it's installed, or find the manufacturer's datasheet.
 
-### Condenser fan: YWF4E-400S
-
-| What | Value | Source |
-|---|---|---|
-| Power | 220 V, 50 Hz, 180 W, 4 poles | Receipt and motor label |
-| Location | The black fan on the outdoor unit | Family and photos |
-
-It was bought and installed recently. My family says the condenser has two fans. I don't know the model of the other one yet, and I haven't counted them myself.
-
-### Evaporator: DD-6.0/30
+### Refrigerant: R404A
 
 | What | Value | Source |
 |---|---|---|
-| Capacity on the label | 6.0 kW | Nameplate |
-| Surface | 30 m2 | Nameplate |
-| Type | DD series, low-temperature unit cooler, fits a freezer | Nameplate and catalogs |
-| Exact position in the room | Unknown | Unverified |
+| Type | R404A | Receipt |
+| Amount bought | 2 cylinders, 10.9 kg each | Receipt |
 
-It's the only evaporator I found in the cold room. I still have to check whether there is anything else cooling the second chamber.
+Bought together with the evaporator. I'll confirm with the technician that this is the refrigerant the system is charged with.
 
-### Other parts of the outdoor unit
+### Fan: YWF4E-400S
 
-There is a liquid receiver and an electrical box. Both nameplates came out blurry. I don't open the electrical box, that's a job for an electrician.
+| What | Value | Source |
+|---|---|---|
+| Power | 220 V, 50 Hz, 180 W, 4 poles, insulation class F | Receipt |
+| Type | Axial fan, suction type | Receipt |
+| Where it will be installed | Unknown | Unverified |
 
-## Not verified yet
+## Not known yet
 
-I'm not assuming exact numbers of controllers, evaporators, fans or refrigerant circuits until I check them myself on site or find them in the documentation.
+The new room is not finished, so a lot of the installation can't be checked yet. I'm not assuming anything about these until I see them on site or in the documentation:
 
-1. Exact ETC-974 version and its manual
-2. Which ETC-974 panel belongs to this cold room
-3. Full compressor model (need a clean photo of the nameplate)
-4. Number of condenser fans and the model of the second one
-5. Refrigerant type
-6. Number of refrigerant circuits
-7. Real setpoint and defrost settings from the controller
-8. Where the evaporator is and how air gets to the second chamber
-9. Where there's Wi-Fi and where I can get low-voltage power
-
-Equipment bought around the same time for a different refrigerator is not part of this project and is not listed here.
+1. Compressor or condensing unit: model, power supply, current
+2. Condenser, and the number and models of its fans
+3. Where the YWF4E-400S fan goes
+4. Number of evaporators and where they hang
+5. Defrost type (electric heaters or another method) and defrost settings
+6. Planned setpoint
+7. Whether the ETC-974 will control the new room, and its exact version
+8. Number of refrigerant circuits
+9. Where there's Wi-Fi and where I can get low-voltage power near the room

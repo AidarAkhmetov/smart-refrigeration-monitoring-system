@@ -5,8 +5,8 @@ Status: PROPOSED. Nothing here is final. It will change after the equipment is f
 ## 1. Overview
 
 ```
-            ONE COLD ROOM
-  main chamber, second chamber, evaporator outlet
+        ONE COLD ROOM (about 106 m2)
+  evaporator outlet, far end, door, middle of the room
   (Phase 2: compressor, condenser fans, defrost, power)
                    |
        protection and isolation
@@ -28,7 +28,9 @@ The data is organized as one cold room with several measurement points. In Phase
 
 ## 2. Verified equipment
 
-What I actually know about the installation is in the [site survey](site-survey.md). Short version: Elitech ETC-974 controller, InvoTech scroll compressor, FNH-49.9/180 outdoor condenser with a YWF4E-400S fan, DD-6.0/30 evaporator. The number of fans, controllers and refrigerant circuits is not verified yet.
+What I actually know about the installation is in the [site survey](site-survey.md). Short version: the target is a new, larger cold room (about 106 m2). Known so far: Elitech ETC-974 controller (no data port), HLD-450-36/28-6 evaporator, R404A refrigerant, a YWF4E-400S fan. The compressor, the condenser and the number of fans, evaporators and refrigerant circuits are not known yet, because the room is not finished.
+
+This doesn't block Phase 1: temperature monitoring only needs sensors inside the room and doesn't depend on which compressor is used. Phase 2 sensors can only be chosen after the outdoor unit is identified.
 
 ## 3. Candidate sensors
 
@@ -47,7 +49,8 @@ None of these are chosen. Each one still needs to be checked against the datashe
 
 Phase 1:
 
-- One temperature probe in the main chamber, one in the second chamber, one near the evaporator air outlet. Exact places chosen on site, away from the door and from direct airflow where needed.
+- Temperature probes near the evaporator air outlet, at the far end of the room, near the door and in the middle of the room. In a room this size the temperature can differ a lot between these places, so the alert should look at the warmest point, not at an average. Exact places chosen on site.
+- Probe cables in a large room get long (10 m or more), which is one more thing to check when choosing between DS18B20 and PT1000.
 - Readings every 30-60 seconds.
 - The device sends a short "I'm alive" message regularly. If the server doesn't hear from it for a few minutes, that's an alert.
 - Defrost detection from the temperature curve near the evaporator (temperature rises fast and comes back on a regular schedule). To be tested on real data.
@@ -76,7 +79,7 @@ These are ideas for Phase 2, based on how refrigeration units usually work. None
 ```json
 {
   "device_id": "node-01",
-  "sensor_id": "main-chamber-air",
+  "sensor_id": "room-far-end-air",
   "metric": "temperature",
   "value": -18.6,
   "unit": "degC",

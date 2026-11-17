@@ -4,7 +4,7 @@ A low-cost monitoring system for small cold rooms. The first goal is simple and 
 
 ## Current status
 
-Research and requirements phase. So far I have surveyed the real installation, identified the equipment from nameplates and photos, and written the requirements and a proposed architecture. No hardware has been bought, no code has been written and nothing has been tested yet. Progress is tracked in [docs/roadmap.md](docs/roadmap.md).
+Research and requirements phase. So far I have surveyed the cold room and the equipment I have access to, and written the requirements and a proposed architecture. No hardware has been bought, no code has been written and nothing has been tested yet. Progress is tracked in [docs/roadmap.md](docs/roadmap.md).
 
 ## Why I'm doing this
 
@@ -39,11 +39,11 @@ Phase 2, research goal:
 
 Phase 2 only starts after Phase 1 works reliably and I have collected enough normal operating data to know what "abnormal" looks like.
 
-Expected outcome of Phase 1: a working, tested prototype installed in our cold room, with documented hardware, firmware, server code, test results and real cost.
+Expected outcome of Phase 1: a working, tested prototype installed in our new cold room, with documented hardware, firmware, server code, test results and real cost.
 
 ## Scope
 
-One cold room, the one in my parents' shop. Inside it there is a main chamber and a smaller second chamber connected to it. This is one refrigerated space served by one refrigeration unit, not two separate rooms, so it is treated as one cold room with several measurement points.
+One cold room in my parents' shop. The small cold room that broke down is going to be taken down and replaced by a larger one (about 106 m2 of floor area), so the system is designed for the new room. It is one refrigerated space, treated as one cold room with several measurement points spread across it.
 
 If the system works well there, I want to offer it to the other shops and workshops near the warehouses later. That is outside the scope of this project for now.
 
@@ -51,12 +51,13 @@ If the system works well there, I want to offer it to the other shops and worksh
 
 | Part | Model | How I know |
 |---|---|---|
-| Controller | Elitech ETC-974 (temperature and defrost controller) | Nameplate |
-| Compressor | InvoTech hermetic scroll compressor, 3-phase 380-420 V | Nameplate (full model number not readable yet) |
-| Condenser | FNH-49.9/180 air-cooled condenser, outdoors | Nameplate |
-| Condenser fan | YWF4E-400S, 220 V, 180 W | Motor label and purchase receipt |
-| Evaporator | DD-6.0/30 low-temperature unit cooler, indoors | Nameplate |
-| Room temperature | Around -18 to -20 °C | Family's estimate, to be checked on the controller |
+| Room | One room, about 106 m2 floor area, 3.5 m ceiling | Building plan |
+| Controller | Elitech ETC-974 (temperature and defrost controller), no data port | Packaging label and manual |
+| Evaporator | HLD-450-36/28-6 | Purchase receipt (nameplate data not checked yet) |
+| Refrigerant | R404A | Purchase receipt |
+| Fan | YWF4E-400S, 220 V, 180 W | Purchase receipt |
+| Compressor, condenser | Not identified yet | The new room is not finished |
+| Room temperature | Not decided yet, probably a freezer | Family |
 
 Details, and everything that is still unverified, are in [docs/site-survey.md](docs/site-survey.md).
 
