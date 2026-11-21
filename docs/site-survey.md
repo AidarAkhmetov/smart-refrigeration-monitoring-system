@@ -30,7 +30,8 @@ One large refrigerated room, already in use. On the building plan it is not a re
 | Ceiling height | 3.0 m | Building plan |
 | Volume | About 319 m3 (106.2 m2 x 3.0 m) | My calculation |
 | Inside | Open room with two columns, pallets and shelves. No inner walls | Photos |
-| Door | One large sliding insulated door to the yard, with a plastic strip curtain inside | Photos |
+| Door | One large sliding insulated door to the yard, with a plastic strip curtain inside. It is in the 12.36 m wall, close to the corner with the 10.73 m wall | Photos, building plan |
+| Office | Behind the 10.73 m wall, at the door corner. Has a power socket and internet | Building plan, photos |
 | Storage temperature | -18 to -20 °C (frozen fish) | Family. I'll confirm the real value with my own sensors |
 
 Quick check of the plan: if the 7.11 m and 10.73 m walls are parallel, the other two walls put them about 11.75 m apart, and the area comes out at about 105 m2. That is close to the 106.2 m2 on the plan, so the numbers fit together.
@@ -117,7 +118,7 @@ One evaporator for the whole room.
 | Defrost | Electric heaters, 16.8 kW | Nameplate |
 | Size and weight | 3510 x 670 x 660 mm, 148 kg | Nameplate |
 | Mounting | On the wall under the ceiling, thermostatic expansion valve at the inlet, drain pipe through the wall | Photos |
-| Position on the plan | Not marked yet | Unverified |
+| Position on the plan | On the short 7.11 m wall, at the far end of the room from the door | Building plan, marked by me |
 
 The 16.8 kW defrost heaters are important for the monitoring: during each defrost the air near the evaporator gets warmer for a while. That is normal, and the system must not send an alarm for it.
 
@@ -139,14 +140,19 @@ Because the controller has no data port, the monitoring system uses its own sens
 ## Where the monitoring device can go
 
 - Right behind the cold room wall, next to the door, there is an office with a power socket and stable internet, 2-3 m from the room.
-- We are not allowed to drill a hole between the office and the cold room.
+- We have permission to drill one small hole between the office and the cold room, near the door. I only get one try at this, so I'll drill only at the very end.
 - Wi-Fi and mobile signal work inside the cold room. I still have to measure how strong the signal is at the places where the sensors will be.
 
-So the main box with the microcontroller can sit in the office and plug into the socket with a normal adapter. The sensors inside the room have to reach it without a new hole in the wall. They could be wireless, but their batteries then have to work at -20 °C. I'll choose this in the sensor stage.
+So the main box with the microcontroller sits in the office and plugs into the socket with a normal adapter. The plan for the sensors inside the room:
+
+1. First, battery sensors in the room for 2-3 weeks. They send their readings wirelessly to the box in the office. The batteries have to work at -20 °C.
+2. When I'm sure everything works, I drill one small hole near the door, run one cable through it, seal it on both sides so no warm air gets in, and switch to wired sensors. No batteries in the cold after that.
+
+Before drilling I'll measure how thick the wall is, find out what it's made of, and check the spot for hidden cables, because the office socket is in that corner.
 
 ## Not known yet
 
-1. Where exactly the evaporator hangs on the plan, so I can choose the sensor points
+1. Thickness and material of the wall between the room and the office
 2. The controller's setpoint and defrost settings (I'll only read them, not change them)
 3. Fan models of the condenser and the evaporator
 4. The settings of the pressure switches

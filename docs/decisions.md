@@ -133,7 +133,7 @@ What changes:
 
 ## 2026-11-22: Main device in the office, no hole in the wall
 
-Status: Provisional
+Status: Partly replaced. The device stays in the office, but the "no hole" part is replaced by "Battery sensors first, drill once at the end" below
 
 Decision: The microcontroller goes into the office right behind the cold room wall and is powered from a normal socket. No hole is drilled between the office and the cold room.
 
@@ -142,3 +142,15 @@ Why: The office has a socket and stable internet only 2-3 m from the room, so I 
 Not chosen: A box outside next to the condensing unit. It would be in dust and weather and further from power and internet.
 
 Will check: How the sensors inside reach the device (most likely wireless), the signal strength at each sensor point, and how long batteries last at -20 °C.
+
+---
+
+## 2026-11-22: Battery sensors first, drill once at the end
+
+Status: Provisional
+
+Decision: This replaces the "no hole" part of the entry above. We got permission to drill one small hole between the office and the cold room. But I only have one try, so I drill at the very end. First the sensors run on batteries inside the room for 2-3 weeks and send their data wirelessly to the device in the office. When the whole system works, I drill the hole near the door, run one cable through it, seal it and switch to wired sensors.
+
+Why: Wired sensors are better for the long run: no batteries in the cold and nothing that can lose the radio signal. But a hole in a freezer wall can't be undone, so I want to be sure about the sensors, the cable and the places before I make it.
+
+Will check: wall thickness and material, hidden cables near the office socket, and a sealing method that keeps ice from forming around the cable.

@@ -39,7 +39,7 @@ Scope: one large freezer room (106.2 m2 floor area, 3.0 m ceiling, -18 to -20 °
 |---|---|---|---|
 | R-13 | Hardware cost far below a ready-made system (500-800 euros). Exact budget after choosing sensors | High | Parts list with real prices |
 | R-14 | The low-voltage part can be installed without special skills. Anything on mains is done by an electrician | Medium | Written installation steps |
-| R-15 | No new hole in the wall between the office and the cold room. The main device sits in the office and is powered from a normal socket with a plug-in adapter | High | Installation photos |
+| R-15 | The main device sits in the office and is powered from a normal socket with a plug-in adapter. Only one small hole between the office and the room, drilled at the very end and sealed airtight | High | Installation photos, no ice around the cable after a month |
 | R-16 | Sensors inside the room, including their power source, work for months at -20 °C | High | Freezer test before installation |
 
 ## Phase 2: research goals
@@ -59,7 +59,7 @@ Whether G-03 to G-05 are possible with cheap sensors is an open research questio
 ## Open questions
 
 - The room is kept at -18 to -20 °C, but I haven't read the exact setpoint on the controller. The alarm limits depend on it, so I'll check it with my own sensors first.
-- How do the sensors inside the room reach the device in the office without a hole in the wall? Wireless is the likely answer, but batteries lose capacity in the cold.
+- How long do the batteries of the test sensors last at -20 °C? This decides how often they have to be changed during the 2-3 week test.
 - How many measurement points does a room this size really need? Probably more than four, especially if goods are stacked high. To be decided after looking at how the air moves in the finished room.
 - Is +/-0.5 °C really needed, or is +/-1 °C enough for a freezer?
 - How often to take readings? Probably every 30-60 seconds.

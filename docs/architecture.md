@@ -32,7 +32,7 @@ What I actually know about the installation is in the [site survey](site-survey.
 
 Phase 1 only needs sensors inside the room. For Phase 2 the nameplates now give the ranges the sensors must handle, for example up to 52.3 A for the compressor.
 
-Where things go: the main device sits in the office right behind the cold room wall, where there is a socket and internet. There must be no new hole between the office and the room, so the sensors inside need another way to send their data, most likely wireless.
+Where things go: the main device sits in the office right behind the cold room wall, where there is a socket and internet. For the first 2-3 weeks the sensors inside run on batteries and send their data wirelessly. After that I drill one small sealed hole near the door and switch to wired sensors.
 
 ## 3. Candidate sensors
 
@@ -42,7 +42,7 @@ None of these are chosen. Each one still needs to be checked against the datashe
 |---|---|---|---|
 | Room air temperature | DS18B20 waterproof probe | Cheap, digital, several on one wire | Need to check accuracy at -20 °C and moisture during defrost |
 | Room air temperature | PT1000 + converter (for example MAX31865) | More accurate and stable | More expensive, more parts |
-| Room air temperature | Wireless battery sensor inside the room, receiver in the office | No hole in the wall needed | Batteries at -20 °C, radio range through the insulated wall and door |
+| Room air temperature, test period | Wireless battery sensor inside the room, receiver in the office | No hole needed while I'm still testing | Batteries at -20 °C, radio range through the insulated wall and door |
 | Compressor / fan running (Phase 2) | Split-core current transformer | Doesn't touch the wiring, clamps around one wire | Has to be installed by an electrician in the panel |
 | Fan running (Phase 2) | Vibration sensor on the fan housing | No mains work at all | Less reliable, may pick up vibration from the compressor |
 | Door open (Phase 2) | Magnetic reed switch | Very cheap | Need a safe way to mount it on a freezer door |
@@ -96,7 +96,7 @@ These are ideas for Phase 2, based on how refrigeration units usually work. None
 
 ## 7. Open questions
 
-- Wired or wireless sensors inside the room? Depends on whether a cable route without a new hole exists, and on a battery test in a freezer.
+- How much of the test version (wireless) can be reused in the final version (wired)? Ideally the same sensors and the same firmware structure, only the way the data travels changes.
 - DS18B20 or PT1000 (if wired)? Depends on the bench test at freezer temperature.
 - MQTT or simple HTTP?
 - Database: SQLite to start, maybe InfluxDB or TimescaleDB later.

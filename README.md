@@ -73,7 +73,8 @@ Details, and everything that is still unverified, are in [docs/site-survey.md](d
 ```
 temperature sensors in the cold room
 (later: sensors on each part of the unit)
-                 |   no new hole in the wall, so probably wireless
+                 |   first wireless on batteries,
+                 |   later one cable through a small sealed hole
                  v
    microcontroller (probably ESP32) in the office
    behind the cold room wall, plugged into a socket

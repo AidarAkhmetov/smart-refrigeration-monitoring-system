@@ -13,14 +13,15 @@ Scope: one large cold room (about 106 m2) that replaces the old small one.
 | 5 | Firmware | Reads sensors, stores data offline, survives unplugged sensor, Wi-Fi loss and restart | Not started |
 | 6 | Server | Receives, checks and stores data, has automated tests | Not started |
 | 7 | App and notifications | Live values, history, phone alerts, "device offline" alert | Not started |
-| 8 | Pilot in the new cold room | Runs for several weeks; false alarms during defrost counted and fixed | Not started |
+| 8 | Pilot in the new cold room | Battery sensors run for 2-3 weeks; false alarms during defrost counted and fixed | Not started |
+| 9 | Final installation | One small sealed hole near the door, wired sensors, no ice around the cable after a month | Not started |
 
 ## Phase 2: equipment health (research)
 
 | # | Stage | Finished when | Status |
 |---|---|---|---|
-| 9 | Equipment state sensing | Compressor and fan running state measured safely | Not started |
-| 10 | Normal data | Several weeks of data, so I know what "normal" looks like for each part | Not started |
-| 11 | Anomalies and fault hypotheses | Anomalies logged per part; fault hypotheses from the architecture tested on real data | Not started |
+| 10 | Equipment state sensing | Compressor and fan running state measured safely | Not started |
+| 11 | Normal data | Several weeks of data, so I know what "normal" looks like for each part | Not started |
+| 12 | Anomalies and fault hypotheses | Anomalies logged per part; fault hypotheses from the architecture tested on real data | Not started |
 
 I don't start the next stage until the current one is really done. Phase 2 starts only after the pilot in stage 8 works.
