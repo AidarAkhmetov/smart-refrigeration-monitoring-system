@@ -12,6 +12,8 @@ Short notes on what I did and what I learned, newest at the top. The full detail
 - We got permission to drill one hole between the office and the cold room for the sensor cable. I only get one try, so I decided to test with battery sensors first for 2-3 weeks and drill only at the very end.
 - Chose the parts for the first build on my desk: two ESP32 boards with external antennas and DS18B20 temperature sensors. Checked every shop page before ordering. One sensor was out of stock, one board needed an extra antenna, and one resistor listing was in the car parts section.
 - Stage 1 (site survey) is done.
+- Added the nameplate photos as [evidence](evidence/README.md) and drew a [sketch of the room](images/room-sketch.svg) with the planned sensor points. I blacked out the serial numbers and didn't upload the building plan, because it has personal data on it.
+- Started working with branches and pull requests, and tagged the end of stage 1.
 
 ## November 17, 2026
 
