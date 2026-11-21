@@ -2,9 +2,24 @@
 
 A low-cost monitoring system for small cold rooms. The first goal is simple and reliable: measure the temperature, notice when the system goes quiet, and alert the owner's phone. The longer-term goal is to watch each main part of the refrigeration unit and catch problems before they turn into a breakdown.
 
-## Current status
+## Where the project is now
 
-Research and requirements phase. I have surveyed the cold room, read the nameplates of all its refrigeration equipment, and written the requirements and a proposed architecture. No hardware has been bought, no code has been written and nothing has been tested yet. Progress is tracked in [docs/roadmap.md](docs/roadmap.md).
+| # | Stage | Status |
+|---|---|---|
+| 1 | Site survey: equipment and requirements | ✅ Done |
+| 2 | Exact equipment data | 🔄 Nameplates and plan done |
+| 3 | Sensor choice | 🔄 First candidate chosen |
+| 4 | **First build on the desk** | 🔄 **Now: parts chosen, ordering** |
+| 5 | Firmware for the ESP32 | ⬜ |
+| 6 | Server | ⬜ |
+| 7 | App and phone alerts | ⬜ |
+| 8 | 2-3 week test in the cold room with battery sensors | ⬜ |
+| 9 | Final installation with wired sensors | ⬜ |
+| 10-12 | Phase 2: watching each part of the refrigeration unit | ⬜ |
+
+✅ done · 🔄 in progress · ⬜ not started. What each stage means and when it counts as done: [roadmap](docs/roadmap.md).
+
+No code has been written and nothing has been tested yet.
 
 ## Why I'm doing this
 
@@ -102,19 +117,33 @@ The full step-by-step plan is in [docs/roadmap.md](docs/roadmap.md), and the rea
 
 Every part gets tested before it goes into the real cold room: sensor accuracy against a reference thermometer, behavior when a sensor is unplugged, when Wi-Fi drops and when power is cut, and false alarms during real defrost cycles. The plan is in [docs/testing-plan.md](docs/testing-plan.md). No tests have been done yet.
 
-## Documentation
+## How this repository is organized
 
-Done so far:
+```
+docs/       research and planning: what I found out, what I need, what I decided
+hardware/   what I actually build: parts, wiring, test results
+```
 
-- [Site survey](docs/site-survey.md)
-- [Requirements](docs/requirements.md)
-- [Proposed architecture](docs/architecture.md)
-- [Roadmap](docs/roadmap.md)
-- [Decision log](docs/decisions.md)
-- [Testing plan](docs/testing-plan.md)
-- [Bench prototype: parts and first steps](hardware/bench-prototype.md)
+`firmware/` (the program for the ESP32) and `server/` will be added when I get to stages 5 and 6.
 
-Will be added when the work gets there: real prices from the receipts, firmware, server, experimental results, calibration and validation, and known limitations.
+Research and planning:
+
+| Document | What's inside | Stage |
+|---|---|---|
+| [Site survey](docs/site-survey.md) | The cold room and every piece of its equipment, with the source of each value | 1-2 |
+| [Requirements](docs/requirements.md) | What the system has to do and how I'll check it | 1 |
+| [Architecture](docs/architecture.md) | How the parts of the system fit together, sensor candidates, fault ideas | 1-3 |
+| [Roadmap](docs/roadmap.md) | All stages, what each one means and when it counts as done | all |
+| [Decision log](docs/decisions.md) | Every important choice, with the reason and what I didn't choose | all |
+| [Testing plan](docs/testing-plan.md) | How every part gets tested before it goes into the cold room | 4-8 |
+
+Building:
+
+| Document | What's inside | Stage |
+|---|---|---|
+| [First build on the desk](hardware/bench-prototype.md) | Parts list, why each part, assembly steps | 4 |
+
+Will be added when the work gets there: real prices from the receipts, wiring diagram, test results, firmware, server, and known limitations.
 
 ## Author
 

@@ -1,27 +1,33 @@
 # Roadmap
 
-Scope: one large cold room (about 106 m2) that replaces the old small one.
+The project is split into two phases and 12 stages. Each stage has a clear "done when" rule, so I know when I can move on.
+
+Status: ✅ done · 🔄 in progress · ⬜ not started
 
 ## Phase 1: monitoring prototype
 
-| # | Stage | Finished when | Status |
-|---|---|---|---|
-| 1 | Site survey and requirements | Equipment identified, requirements written | Done (Nov 22, 2026) |
-| 2 | Exact equipment data | All nameplates read; setpoint and defrost settings read from the controller; evaporator and door positions marked on a room sketch; Wi-Fi signal measured inside the room | In progress (nameplates done) |
-| 3 | Sensor choice and safety check | Temperature sensors chosen; anything on mains checked by an electrician | Not started |
-| 4 | Bench prototype | Sensors compared with a reference thermometer on my desk, low voltage only | In progress: parts chosen ([hardware/bench-prototype.md](../hardware/bench-prototype.md)) |
-| 5 | Firmware | Reads sensors, stores data offline, survives unplugged sensor, Wi-Fi loss and restart | Not started |
-| 6 | Server | Receives, checks and stores data, has automated tests | Not started |
-| 7 | App and notifications | Live values, history, phone alerts, "device offline" alert | Not started |
-| 8 | Pilot in the new cold room | Battery sensors run for 2-3 weeks; false alarms during defrost counted and fixed | Not started |
-| 9 | Final installation | One small sealed hole near the door, wired sensors, no ice around the cable after a month | Not started |
+The goal of Phase 1 is a working system in our cold room: temperature sensors, phone alerts, and an alert when the device goes quiet.
+
+| # | Stage | What it is about | Done when | Status | Details |
+|---|---|---|---|---|---|
+| 1 | Site survey | Find out what equipment the cold room has and what the system needs to do | All equipment listed, requirements written | ✅ Nov 22, 2026 | [Site survey](site-survey.md), [Requirements](requirements.md) |
+| 2 | Exact equipment data | Read every nameplate, mark where things are, check the conditions on site | Nameplates read, evaporator, door and office marked on the plan, controller setpoint read, Wi-Fi signal measured in the room | 🔄 Nameplates and plan done. Setpoint and Wi-Fi left | [Site survey](site-survey.md) |
+| 3 | Sensor choice | Choose temperature sensors that work at -20 °C and fit the budget | Sensor chosen and tested on the desk (stage 4) | 🔄 First candidate: DS18B20 | [Decisions](decisions.md) |
+| 4 | First build on the desk | ESP32 and temperature sensors on a breadboard, powered from the laptop's USB | Sensors compared with a reference thermometer in ice water and in a freezer | 🔄 Parts chosen, ordering | [Bench prototype](../hardware/bench-prototype.md) |
+| 5 | Firmware | The program on the ESP32 | Reads sensors, keeps data when Wi-Fi is down, survives an unplugged sensor and a restart | ⬜ | |
+| 6 | Server | Receives, checks and stores the data | Works with automated tests | ⬜ | |
+| 7 | App and alerts | What my parents see on their phones | Live values, history, phone alerts, "device offline" alert | ⬜ | |
+| 8 | Test in the cold room | Battery sensors in the room for 2-3 weeks, receiver in the office | Runs 2-3 weeks, false alarms during defrost counted and fixed | ⬜ | |
+| 9 | Final installation | One small sealed hole near the door, wired sensors instead of batteries | Wired sensors work, no ice around the cable after a month | ⬜ | |
+
+Stages 2, 3 and 4 run at the same time: building on the desk is how I check if the sensor I chose is good enough. From stage 5 on, I finish one stage before starting the next.
 
 ## Phase 2: equipment health (research)
 
-| # | Stage | Finished when | Status |
-|---|---|---|---|
-| 10 | Equipment state sensing | Compressor and fan running state measured safely | Not started |
-| 11 | Normal data | Several weeks of data, so I know what "normal" looks like for each part | Not started |
-| 12 | Anomalies and fault hypotheses | Anomalies logged per part; fault hypotheses from the architecture tested on real data | Not started |
+Starts only after Phase 1 works in the cold room. The goal is to watch each part of the refrigeration unit and notice problems before a breakdown.
 
-I don't start the next stage until the current one is really done. Phase 2 starts only after the pilot in stage 8 works.
+| # | Stage | What it is about | Done when | Status |
+|---|---|---|---|---|
+| 10 | Equipment state | Measure safely if the compressor and the fans are running | Running state measured, sensors installed by an electrician | ⬜ |
+| 11 | Normal data | Collect several weeks of data | I know what "normal" looks like for each part | ⬜ |
+| 12 | Anomalies | Find unusual behavior of each part | Anomalies logged per part, fault ideas from the [architecture](architecture.md) tested on real data | ⬜ |

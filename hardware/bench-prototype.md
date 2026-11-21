@@ -1,4 +1,6 @@
-# Bench prototype (stage 4)
+# Stage 4: First build on the desk
+
+**Status:** 🔄 parts chosen, ordering · Previous: [stage 3, sensor choice](../docs/roadmap.md) · Next: stage 5, firmware · All stages: [roadmap](../docs/roadmap.md)
 
 The first thing I build: one microcontroller and a temperature sensor on my desk at home. Everything runs from the laptop's USB port (5 V), so there is no mains wiring and nothing touches the cold room yet.
 
