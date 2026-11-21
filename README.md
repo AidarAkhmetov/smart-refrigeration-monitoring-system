@@ -120,17 +120,26 @@ Every part gets tested before it goes into the real cold room: sensor accuracy a
 ## How this repository is organized
 
 ```
-docs/       research and planning: what I found out, what I need, what I decided
-hardware/   what I actually build: parts, wiring, test results
+docs/            research and planning: what I found out, what I need, what I decided
+docs/evidence/   photos of the nameplates that back up the site survey
+hardware/        what I actually build: parts, wiring, test results
 ```
 
 `firmware/` (the program for the ESP32) and `server/` will be added when I get to stages 5 and 6.
+
+How I work:
+
+- Every task gets its own branch. When it's done, I merge it into `main` with a pull request, so each step can be seen in the [pull requests](https://github.com/AidarAkhmetov/smart-refrigeration-monitoring-system/pulls?q=is%3Apr).
+- When a stage is finished, I tag it and publish a [release](https://github.com/AidarAkhmetov/smart-refrigeration-monitoring-system/releases) with a short summary.
+- Values come with their source: a nameplate photo, a manual, a receipt or my own measurement. If something isn't confirmed yet, I write that it's unverified.
+- The [project log](docs/project-log.md) has short notes on what I did and when.
 
 Research and planning:
 
 | Document | What's inside | Stage |
 |---|---|---|
 | [Site survey](docs/site-survey.md) | The cold room and every piece of its equipment, with the source of each value | 1-2 |
+| [Evidence](docs/evidence/README.md) | Nameplate photos and a sketch of the room | 1-2 |
 | [Requirements](docs/requirements.md) | What the system has to do and how I'll check it | 1 |
 | [Architecture](docs/architecture.md) | How the parts of the system fit together, sensor candidates, fault ideas | 1-3 |
 | [Roadmap](docs/roadmap.md) | All stages, what each one means and when it counts as done | all |
