@@ -112,3 +112,33 @@ What changes:
 - Known equipment for the new room: ETC-974 controller, HLD-450-36/28-6 evaporator, R404A refrigerant, a YWF4E-400S fan. The compressor and condenser are not known yet.
 - The room is about 4-5 times larger, so it needs more measurement points spread across it, and the alert has to react to the warmest point.
 - Phase 1 (temperature and alerts) can be designed now. Phase 2 sensors wait until the outdoor unit is identified.
+
+---
+
+## 2026-11-22: Equipment identified from the nameplates
+
+Status: Confirmed
+
+Decision: The site survey now uses nameplate data instead of receipts. The installation is one Holodom condensing unit (Frascold V25-103Y compressor, FNH-49.9/180 condenser with 4 fans, R404A) and one HLD.E-450-36/28-6 evaporator with 16.8 kW electric defrost, controlled by the ETC-974. This updates the equipment list in "The target is the new large cold room".
+
+Why: I photographed every label of the installation. Nameplate data is more reliable than a receipt, and now I know the real ranges the sensors have to handle.
+
+What changes:
+
+- The ceiling is 3.0 m, not 3.5 m. I misread the plan the first time.
+- The room is a freezer at -18 to -20 °C, so the sensors have to work well around -20 °C.
+- The YWF4E-400S fan from the receipt is left out of the survey. It isn't needed for this project for now.
+
+---
+
+## 2026-11-22: Main device in the office, no hole in the wall
+
+Status: Provisional
+
+Decision: The microcontroller goes into the office right behind the cold room wall and is powered from a normal socket. No hole is drilled between the office and the cold room.
+
+Why: The office has a socket and stable internet only 2-3 m from the room, so I don't need any mains work. Drilling between the office and the room is not allowed.
+
+Not chosen: A box outside next to the condensing unit. It would be in dust and weather and further from power and internet.
+
+Will check: How the sensors inside reach the device (most likely wireless), the signal strength at each sensor point, and how long batteries last at -20 °C.

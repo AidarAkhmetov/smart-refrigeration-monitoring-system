@@ -4,7 +4,7 @@ A low-cost monitoring system for small cold rooms. The first goal is simple and 
 
 ## Current status
 
-Research and requirements phase. So far I have surveyed the cold room and the equipment I have access to, and written the requirements and a proposed architecture. No hardware has been bought, no code has been written and nothing has been tested yet. Progress is tracked in [docs/roadmap.md](docs/roadmap.md).
+Research and requirements phase. I have surveyed the cold room, read the nameplates of all its refrigeration equipment, and written the requirements and a proposed architecture. No hardware has been bought, no code has been written and nothing has been tested yet. Progress is tracked in [docs/roadmap.md](docs/roadmap.md).
 
 ## Why I'm doing this
 
@@ -49,15 +49,16 @@ If the system works well there, I want to offer it to the other shops and worksh
 
 ## Equipment
 
-| Part | Model | How I know |
+| Part | Model and main data | How I know |
 |---|---|---|
-| Room | One room, about 106 m2 floor area, 3.5 m ceiling | Building plan |
+| Room | One room, 106.2 m2 floor area, 3.0 m ceiling, one sliding door | Building plan, photos |
+| Room temperature | Freezer, -18 to -20 °C | Family (to be confirmed with my sensors) |
+| Condensing unit | Holodom ASP-F-LV25103Y-1-1204, 380 V 3-phase, 28.7 kW cooling at -25 °C | Nameplate |
+| Compressor | Frascold V25-103Y, semi-hermetic, max. 52.3 A | Nameplate |
+| Condenser | FNH-49.9/180, 4 fans | Nameplate, photos |
+| Evaporator | Holodom HLD.E-450-36/28-6, 4 fans, 16.8 kW electric defrost | Nameplate |
+| Refrigerant | R404A | Nameplate, purchase receipt |
 | Controller | Elitech ETC-974 (temperature and defrost controller), no data port | Packaging label and manual |
-| Evaporator | HLD-450-36/28-6 | Purchase receipt (nameplate data not checked yet) |
-| Refrigerant | R404A | Purchase receipt |
-| Fan | YWF4E-400S, 220 V, 180 W | Purchase receipt |
-| Compressor, condenser | Not identified yet | The new room is not finished |
-| Room temperature | Not decided yet, probably a freezer | Family |
 
 Details, and everything that is still unverified, are in [docs/site-survey.md](docs/site-survey.md).
 
@@ -72,9 +73,11 @@ Details, and everything that is still unverified, are in [docs/site-survey.md](d
 ```
 temperature sensors in the cold room
 (later: sensors on each part of the unit)
-                 |
-        microcontroller (probably ESP32)
-                 |   Wi-Fi, stores data locally if Wi-Fi is down
+                 |   no new hole in the wall, so probably wireless
+                 v
+   microcontroller (probably ESP32) in the office
+   behind the cold room wall, plugged into a socket
+                 |   internet, stores data locally if it is down
                  v
            server (Python)
      checks data, decides when to alert

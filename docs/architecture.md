@@ -28,9 +28,11 @@ The data is organized as one cold room with several measurement points. In Phase
 
 ## 2. Verified equipment
 
-What I actually know about the installation is in the [site survey](site-survey.md). Short version: the target is a new, larger cold room (about 106 m2). Known so far: Elitech ETC-974 controller (no data port), HLD-450-36/28-6 evaporator, R404A refrigerant, a YWF4E-400S fan. The compressor, the condenser and the number of fans, evaporators and refrigerant circuits are not known yet, because the room is not finished.
+What I actually know about the installation is in the [site survey](site-survey.md). Short version: one freezer room of 106.2 m2 at -18 to -20 °C, one outdoor Holodom condensing unit (Frascold V25-103Y compressor, FNH-49.9/180 condenser with 4 fans, R404A), one HLD.E-450-36/28-6 evaporator with electric defrost, and an Elitech ETC-974 controller without a data port.
 
-This doesn't block Phase 1: temperature monitoring only needs sensors inside the room and doesn't depend on which compressor is used. Phase 2 sensors can only be chosen after the outdoor unit is identified.
+Phase 1 only needs sensors inside the room. For Phase 2 the nameplates now give the ranges the sensors must handle, for example up to 52.3 A for the compressor.
+
+Where things go: the main device sits in the office right behind the cold room wall, where there is a socket and internet. There must be no new hole between the office and the room, so the sensors inside need another way to send their data, most likely wireless.
 
 ## 3. Candidate sensors
 
@@ -40,6 +42,7 @@ None of these are chosen. Each one still needs to be checked against the datashe
 |---|---|---|---|
 | Room air temperature | DS18B20 waterproof probe | Cheap, digital, several on one wire | Need to check accuracy at -20 °C and moisture during defrost |
 | Room air temperature | PT1000 + converter (for example MAX31865) | More accurate and stable | More expensive, more parts |
+| Room air temperature | Wireless battery sensor inside the room, receiver in the office | No hole in the wall needed | Batteries at -20 °C, radio range through the insulated wall and door |
 | Compressor / fan running (Phase 2) | Split-core current transformer | Doesn't touch the wiring, clamps around one wire | Has to be installed by an electrician in the panel |
 | Fan running (Phase 2) | Vibration sensor on the fan housing | No mains work at all | Less reliable, may pick up vibration from the compressor |
 | Door open (Phase 2) | Magnetic reed switch | Very cheap | Need a safe way to mount it on a freezer door |
@@ -50,7 +53,7 @@ None of these are chosen. Each one still needs to be checked against the datashe
 Phase 1:
 
 - Temperature probes near the evaporator air outlet, at the far end of the room, near the door and in the middle of the room. In a room this size the temperature can differ a lot between these places, so the alert should look at the warmest point, not at an average. Exact places chosen on site.
-- Probe cables in a large room get long (10 m or more), which is one more thing to check when choosing between DS18B20 and PT1000.
+- Wired probes would need a cable route into the room without drilling between the office and the room. If there is no such route, the sensors inside have to be wireless.
 - Readings every 30-60 seconds.
 - The device sends a short "I'm alive" message regularly. If the server doesn't hear from it for a few minutes, that's an alert.
 - Defrost detection from the temperature curve near the evaporator (temperature rises fast and comes back on a regular schedule). To be tested on real data.
@@ -93,8 +96,8 @@ These are ideas for Phase 2, based on how refrigeration units usually work. None
 
 ## 7. Open questions
 
-- DS18B20 or PT1000? Depends on the bench test at freezer temperature.
-- One microcontroller or two? Depends on cable length and where power is available.
+- Wired or wireless sensors inside the room? Depends on whether a cable route without a new hole exists, and on a battery test in a freezer.
+- DS18B20 or PT1000 (if wired)? Depends on the bench test at freezer temperature.
 - MQTT or simple HTTP?
 - Database: SQLite to start, maybe InfluxDB or TimescaleDB later.
 - Where does the server run: a cheap cloud server, or a Raspberry Pi at home?
