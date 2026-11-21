@@ -112,8 +112,9 @@ Done so far:
 - [Roadmap](docs/roadmap.md)
 - [Decision log](docs/decisions.md)
 - [Testing plan](docs/testing-plan.md)
+- [Bench prototype: parts and first steps](hardware/bench-prototype.md)
 
-Will be added when the work gets there: hardware design and parts list with real prices, firmware, server, experimental results, calibration and validation, and known limitations.
+Will be added when the work gets there: real prices from the receipts, firmware, server, experimental results, calibration and validation, and known limitations.
 
 ## Author
 

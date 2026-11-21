@@ -154,3 +154,17 @@ Decision: This replaces the "no hole" part of the entry above. We got permission
 Why: Wired sensors are better for the long run: no batteries in the cold and nothing that can lose the radio signal. But a hole in a freezer wall can't be undone, so I want to be sure about the sensors, the cable and the places before I make it.
 
 Will check: wall thickness and material, hidden cables near the office socket, and a sealing method that keeps ice from forming around the cable.
+
+---
+
+## 2026-11-22: Parts for the bench prototype
+
+Status: Provisional
+
+Decision: Start building with two ESP32-WROOM-32U boards (external antenna) and DS18B20 waterproof probes on a breadboard, powered from the laptop's USB. List: [hardware/bench-prototype.md](../hardware/bench-prototype.md).
+
+Why: It's cheap, needs no soldering and no mains wiring, and lets me test the sensors in ice water and in a freezer before anything goes into the cold room. The external antenna version can later point its antenna at the cold room from the office.
+
+Not chosen yet: PT1000 sensors. If the DS18B20 turns out too inaccurate at -20 °C even after correction, I'll compare it with a PT1000.
+
+Will check: accuracy of each probe at -18 °C against a reference thermometer.

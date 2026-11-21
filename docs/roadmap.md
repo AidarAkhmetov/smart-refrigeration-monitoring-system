@@ -9,7 +9,7 @@ Scope: one large cold room (about 106 m2) that replaces the old small one.
 | 1 | Site survey and requirements | Equipment identified, requirements written | Done (Nov 22, 2026) |
 | 2 | Exact equipment data | All nameplates read; setpoint and defrost settings read from the controller; evaporator and door positions marked on a room sketch; Wi-Fi signal measured inside the room | In progress (nameplates done) |
 | 3 | Sensor choice and safety check | Temperature sensors chosen; anything on mains checked by an electrician | Not started |
-| 4 | Bench prototype | Sensors compared with a reference thermometer on my desk, low voltage only | Not started |
+| 4 | Bench prototype | Sensors compared with a reference thermometer on my desk, low voltage only | In progress: parts chosen ([hardware/bench-prototype.md](../hardware/bench-prototype.md)) |
 | 5 | Firmware | Reads sensors, stores data offline, survives unplugged sensor, Wi-Fi loss and restart | Not started |
 | 6 | Server | Receives, checks and stores data, has automated tests | Not started |
 | 7 | App and notifications | Live values, history, phone alerts, "device offline" alert | Not started |
