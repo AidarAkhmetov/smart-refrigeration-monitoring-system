@@ -13,6 +13,8 @@ Where the information comes from:
 - Family: what my parents told me or what I know from working there.
 - Unverified: I'm not sure yet.
 
+Photos of the nameplates are in [evidence](evidence/README.md).
+
 ## Change of target room
 
 At first I surveyed the small cold room that broke down in November. It turned out that this small room is going to be taken down. A much larger cold room replaces it, and this is the room the monitoring system is built for. The goal stays the same: keep the goods safe and warn us early when something goes wrong.
@@ -22,6 +24,10 @@ What I wrote earlier about the small room no longer applies to this project. The
 ## The room
 
 One large refrigerated room, already in use. On the building plan it is not a rectangle but a four-sided room that is narrower at one end.
+
+![Cold room sketch](images/room-sketch.svg)
+
+My own sketch based on the building plan. The orange points are where I plan to put the sensors.
 
 | What | Value | Source |
 |---|---|---|
@@ -52,13 +58,13 @@ condensing unit (Holodom)                         evaporator HLD.E-450-36/28-6
 controller ETC-974 (on the outside wall, next to the unit)
 ```
 
-This is a simple picture of what I saw, not a wiring or piping diagram.
+This is a simple picture of what I saw, not a wiring or piping diagram. Photos: [outdoor unit](evidence/outdoor-unit.jpg), [evaporator in the room](evidence/evaporator-in-room.jpg).
 
 ## Equipment
 
 ### Condensing unit: Holodom ASP-F-LV25103Y-1-1204
 
-Made by Holodom, a refrigeration company in Almaty.
+Made by Holodom, a refrigeration company in Almaty. [Nameplate photo](evidence/condensing-unit-nameplate.jpg)
 
 | What | Value | Source |
 |---|---|---|
@@ -72,7 +78,7 @@ Made by Holodom, a refrigeration company in Almaty.
 
 ### Compressor: Frascold V25-103Y
 
-Semi-hermetic piston compressor, made in Italy.
+Semi-hermetic piston compressor, made in Italy. [Nameplate photo](evidence/compressor-nameplate.jpg)
 
 | What | Value | Source |
 |---|---|---|
@@ -86,6 +92,8 @@ Semi-hermetic piston compressor, made in Italy.
 The current values matter for Phase 2: if I measure the compressor current later, the sensor has to handle this range. The real running current will be lower than the maximum, and I'll only know it from a measurement.
 
 ### Condenser: FNH-49.9/180
+
+[Nameplate photo](evidence/condenser-nameplate.jpg)
 
 | What | Value | Source |
 |---|---|---|
@@ -108,7 +116,7 @@ The plate on it says "Unit Cooler", but it is the outdoor air-cooled condenser o
 
 ### Evaporator: Holodom HLD.E-450-36/28-6
 
-One evaporator for the whole room.
+One evaporator for the whole room. [Nameplate photo](evidence/evaporator-nameplate.jpg)
 
 | What | Value | Source |
 |---|---|---|
@@ -124,7 +132,7 @@ The 16.8 kW defrost heaters are important for the monitoring: during each defros
 
 ### Controller: Elitech ETC-974
 
-It hangs on the outside wall next to the condensing unit, in a box with two switches. When I took the photo, it showed -18 °C.
+It hangs on the outside wall next to the condensing unit, in a box with two switches. When I took the [photo](evidence/controller-etc974.jpg), it showed -18 °C.
 
 | What | Value | Source |
 |---|---|---|
