@@ -17,7 +17,7 @@ A low-cost monitoring system for small cold rooms. The first goal is simple and 
 | 9 | Final installation with wired sensors | ⬜ |
 | 10-12 | Phase 2: watching each part of the refrigeration unit | ⬜ |
 
-✅ done · 🔄 in progress · ⬜ not started. What each stage means and when it counts as done: [roadmap](docs/roadmap.md).
+✅ done · 🔄 in progress · ⬜ not started. What each stage means and when it counts as done: [roadmap](docs/roadmap.md). What happened when: [project log](docs/project-log.md).
 
 No code has been written and nothing has been tested yet.
 
@@ -134,6 +134,7 @@ Research and planning:
 | [Requirements](docs/requirements.md) | What the system has to do and how I'll check it | 1 |
 | [Architecture](docs/architecture.md) | How the parts of the system fit together, sensor candidates, fault ideas | 1-3 |
 | [Roadmap](docs/roadmap.md) | All stages, what each one means and when it counts as done | all |
+| [Project log](docs/project-log.md) | Short dated notes on what I did and learned | all |
 | [Decision log](docs/decisions.md) | Every important choice, with the reason and what I didn't choose | all |
 | [Testing plan](docs/testing-plan.md) | How every part gets tested before it goes into the cold room | 4-8 |
 
