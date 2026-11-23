@@ -168,3 +168,17 @@ Why: It's cheap, needs no soldering and no mains wiring, and lets me test the se
 Not chosen yet: PT1000 sensors. If the DS18B20 turns out too inaccurate at -20 °C even after correction, I'll compare it with a PT1000.
 
 Will check: accuracy of each probe at -18 °C against a reference thermometer.
+
+---
+
+## 2026-11-23: First server: JSON over HTTP, Python standard library, SQLite
+
+Status: Provisional
+
+Decision: The board sends one small JSON message every 10 seconds with HTTP POST to a Python program on my laptop. The program checks the message, saves it in an SQLite file and shows a status page. It uses only the Python standard library. The message has a version number (`schema_version: 1`), so I can change the format later without confusing old and new boards. Details: [server/README.md](../server/README.md).
+
+Why: I wanted to test the whole chain (board, Wi-Fi, laptop, database, "device offline") before the probes arrive, with as few moving parts as possible. HTTP is easy to test from the browser and from the tests. SQLite is a single file and needs no separate database program. The server writes the time itself, because the board has no clock yet.
+
+Not chosen yet: MQTT. It is common for sensors, but it needs a separate broker program. I'll look at it again in stage 5, together with keeping messages when the connection is down.
+
+Will check: where the server runs in the shop (laptop, Raspberry Pi or the second ESP32 as a receiver), and how to stop other devices on the shop Wi-Fi from sending fake messages.
