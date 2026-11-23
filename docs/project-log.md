@@ -4,6 +4,16 @@ Short notes on what I did and what I learned, newest at the top. The full detail
 
 ---
 
+## November 23, 2026
+
+- The parts arrived two days early, except the temperature probes and the resistors.
+- The laptop saw the board but there was no COM port. The USB chip is a CP2102 and Windows had no driver for it. I installed it from the Silicon Labs website.
+- Uploaded my first programs. One just prints the chip data and scans Wi-Fi: our home network is at -49 dBm. The temperature program also runs and correctly says it found 0 sensors.
+- One upload failed at the default speed. At 115200 it works every time.
+- Found out the board is too wide for one breadboard and I only have male-male wires. I need female-male wires.
+
+---
+
 ## November 21-22, 2026
 
 - Went to the cold room and photographed every nameplate: condensing unit, compressor, condenser, evaporator, receiver, controller. Now the [site survey](site-survey.md) is based on nameplates instead of receipts.

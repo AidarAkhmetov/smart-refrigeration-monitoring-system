@@ -13,7 +13,7 @@ The goal of Phase 1 is a working system in our cold room: temperature sensors, p
 | 1 | Site survey | Find out what equipment the cold room has and what the system needs to do | All equipment listed, requirements written | ✅ Nov 22, 2026 | [Site survey](site-survey.md), [Requirements](requirements.md) |
 | 2 | Exact equipment data | Read every nameplate, mark where things are, check the conditions on site | Nameplates read, evaporator, door and office marked on the plan, controller setpoint read, Wi-Fi signal measured in the room | 🔄 Nameplates and plan done. Setpoint and Wi-Fi left | [Site survey](site-survey.md) |
 | 3 | Sensor choice | Choose temperature sensors that work at -20 °C and fit the budget | Sensor chosen and tested on the desk (stage 4) | 🔄 First candidate: DS18B20 | [Decisions](decisions.md) |
-| 4 | First build on the desk | ESP32 and temperature sensors on a breadboard, powered from the laptop's USB | Sensors compared with a reference thermometer in ice water and in a freezer | 🔄 Parts chosen, ordering | [Bench prototype](../hardware/bench-prototype.md) |
+| 4 | First build on the desk | ESP32 and temperature sensors on a breadboard, powered from the laptop's USB | Sensors compared with a reference thermometer in ice water and in a freezer | 🔄 Board tested, probes on the way | [Bench prototype](../hardware/bench-prototype.md) |
 | 5 | Firmware | The program on the ESP32 | Reads sensors, keeps data when Wi-Fi is down, survives an unplugged sensor and a restart | ⬜ | |
 | 6 | Server | Receives, checks and stores the data | Works with automated tests | ⬜ | |
 | 7 | App and alerts | What my parents see on their phones | Live values, history, phone alerts, "device offline" alert | ⬜ | |

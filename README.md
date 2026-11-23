@@ -9,7 +9,7 @@ A low-cost monitoring system for small cold rooms. The first goal is simple and 
 | 1 | Site survey: equipment and requirements | ✅ Done |
 | 2 | Exact equipment data | 🔄 Nameplates and plan done |
 | 3 | Sensor choice | 🔄 First candidate chosen |
-| 4 | **First build on the desk** | 🔄 **Now: parts chosen, ordering** |
+| 4 | **First build on the desk** | 🔄 **Now: board tested, waiting for the probes** |
 | 5 | Firmware for the ESP32 | ⬜ |
 | 6 | Server | ⬜ |
 | 7 | App and phone alerts | ⬜ |
@@ -19,7 +19,7 @@ A low-cost monitoring system for small cold rooms. The first goal is simple and 
 
 ✅ done · 🔄 in progress · ⬜ not started. What each stage means and when it counts as done: [roadmap](docs/roadmap.md). What happened when: [project log](docs/project-log.md).
 
-No code has been written and nothing has been tested yet.
+The first programs run on the ESP32 board. The temperature probes haven't arrived yet, so nothing has been measured.
 
 ## Why I'm doing this
 
@@ -123,9 +123,10 @@ Every part gets tested before it goes into the real cold room: sensor accuracy a
 docs/            research and planning: what I found out, what I need, what I decided
 docs/evidence/   photos of the nameplates that back up the site survey
 hardware/        what I actually build: parts, wiring, test results
+firmware/        programs for the ESP32
 ```
 
-`firmware/` (the program for the ESP32) and `server/` will be added when I get to stages 5 and 6.
+`server/` will be added when I get to stage 6.
 
 How I work:
 

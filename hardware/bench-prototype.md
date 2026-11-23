@@ -1,6 +1,6 @@
 # Stage 4: First build on the desk
 
-**Status:** 🔄 parts chosen, ordering · Previous: [stage 3, sensor choice](../docs/roadmap.md) · Next: stage 5, firmware · All stages: [roadmap](../docs/roadmap.md)
+**Status:** 🔄 board tested, waiting for the temperature probes · Previous: [stage 3, sensor choice](../docs/roadmap.md) · Next: stage 5, firmware · All stages: [roadmap](../docs/roadmap.md)
 
 The first thing I build: one microcontroller and a temperature sensor on my desk at home. Everything runs from the laptop's USB port (5 V), so there is no mains wiring and nothing touches the cold room yet.
 
@@ -29,11 +29,34 @@ No batteries yet. Which batteries survive -20 °C, and how to power the sensor n
 - The cable material of the probe isn't stated. If it's PVC, it gets stiff in the cold. That doesn't matter on the desk, but it will matter in the room.
 - The U.FL connector on the board is small and not made for many connections. The antenna has to be fixed to something so its weight doesn't hang on the connector.
 
+## What arrived (November 23, 2026)
+
+Everything except the DS18B20 probes and the resistors, which are still on the way.
+
+What I found on the board itself:
+
+| What | Found | How I know |
+|---|---|---|
+| Module | Marked "ESP-32U", U.FL antenna socket | Label on the module |
+| Chip | ESP32-D0WD, revision v1.0, 40 MHz crystal | Reported by the upload tool |
+| USB chip | Silicon Labs CP2102 | Marking on the chip. Windows didn't install the driver by itself, I installed the CP210x driver from the Silicon Labs website |
+| 3.3 V regulator | marked "1117 3.3" | Marking on the part |
+| Pins | 38, all labelled. 3V3, GPIO4 and GND are there, so the [wiring](bench-wiring.svg) fits this board | Labels on the board |
+| Buttons | BOOT and EN (restart) | Labels on the board |
+
+Two things to be careful about with this board:
+
+- The pins marked D0, D1, D2, D3, CMD and CLK go to the board's flash memory. Nothing may be connected to them.
+- GPIO4 sits between GPIO16 and GPIO0. GPIO0 decides how the board starts, so the probe's data wire must not end up one pin off.
+
+One problem I noticed: the board is wide. On one 830-point breadboard it covers all the holes on one side, and 3V3 and GPIO4 are on opposite sides. My jumper wires are male-male and the board has male pins too. So I need female-male jumper wires to connect the board to the breadboard.
+
 ## Steps
 
-1. Install the Arduino IDE and the ESP32 board support.
-2. Connect one DS18B20 to the ESP32 on the breadboard (3 wires and the 4.7 kOhm resistor).
-3. Upload a first program that prints the temperature every few seconds.
-4. Test both probes: room temperature, ice water, home freezer. Write down the difference from the reference thermometer.
+1. ✅ Install the Arduino IDE and the ESP32 board support.
+2. ✅ Check the board without sensors: [board-check](../firmware/board-check/README.md). It starts, takes programs, and finds our Wi-Fi at -49 dBm.
+3. Connect one DS18B20 to the ESP32 on the breadboard (3 wires and the 4.7 kOhm resistor): [wiring](bench-wiring.svg).
+4. Upload [bench-test](../firmware/bench-test/README.md), which prints the temperature every 5 seconds. Without a probe it already runs and correctly reports `found 0 sensor(s) on GPIO4`.
+5. Test both probes: room temperature, ice water, home freezer. Write down the difference from the reference thermometer.
 
 Results will go into this folder when I have them.
