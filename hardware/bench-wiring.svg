@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480" font-family="Arial, Helvetica, sans-serif" font-size="15">
+  <rect width="860" height="480" fill="#ffffff"/>
+  <text x="30" y="36" font-size="20" font-weight="bold" fill="#222">Stage 4 bench wiring: ESP32 + DS18B20</text>
+  <text x="30" y="60" fill="#555">Powered only from the laptop USB port (5 V into the board, probe runs on 3.3 V)</text>
+
+  <!-- ESP32 board -->
+  <rect x="40" y="100" width="200" height="250" rx="10" fill="#e8eef7" stroke="#34495e" stroke-width="2"/>
+  <text x="140" y="130" text-anchor="middle" font-weight="bold" fill="#222">ESP32-WROOM-32U</text>
+  <text x="140" y="150" text-anchor="middle" fill="#555" font-size="13">board</text>
+  <rect x="110" y="330" width="60" height="30" rx="4" fill="#bbb" stroke="#555"/>
+  <text x="140" y="380" text-anchor="middle" fill="#555" font-size="13">USB-C to laptop</text>
+
+  <!-- board pins -->
+  <circle cx="240" cy="190" r="6" fill="#c0392b"/>
+  <text x="228" y="195" text-anchor="end" fill="#222">3V3</text>
+  <circle cx="240" cy="310" r="6" fill="#2c3e50"/>
+  <text x="228" y="315" text-anchor="end" fill="#222">GND</text>
+  <circle cx="240" cy="250" r="6" fill="#d4a017"/>
+  <text x="228" y="255" text-anchor="end" fill="#222">GPIO4</text>
+
+  <!-- wires -->
+  <line x1="246" y1="190" x2="640" y2="190" stroke="#c0392b" stroke-width="4"/>
+  <line x1="246" y1="310" x2="640" y2="310" stroke="#2c3e50" stroke-width="4"/>
+  <line x1="246" y1="250" x2="640" y2="250" stroke="#d4a017" stroke-width="4"/>
+
+  <!-- pull-up resistor between 3V3 and data -->
+  <circle cx="440" cy="190" r="5" fill="#222"/>
+  <circle cx="440" cy="250" r="5" fill="#222"/>
+  <line x1="440" y1="190" x2="440" y2="200" stroke="#222" stroke-width="3"/>
+  <rect x="428" y="200" width="24" height="40" fill="#f5deb3" stroke="#222" stroke-width="2"/>
+  <line x1="440" y1="240" x2="440" y2="250" stroke="#222" stroke-width="3"/>
+  <text x="330" y="215" fill="#222" font-weight="bold">4.7 kOhm</text>
+  <text x="330" y="233" fill="#555" font-size="13">pull-up</text>
+
+  <!-- probe -->
+  <rect x="640" y="160" width="40" height="180" rx="6" fill="#ddd" stroke="#555" stroke-width="2"/>
+  <rect x="680" y="230" width="140" height="40" rx="18" fill="#bfc5c9" stroke="#555" stroke-width="2"/>
+  <text x="750" y="255" text-anchor="middle" fill="#222" font-size="13">steel tip</text>
+  <text x="660" y="150" text-anchor="middle" fill="#222" font-weight="bold">DS18B20 probe</text>
+  <text x="560" y="182" fill="#c0392b" font-size="13">VDD</text>
+  <text x="560" y="302" fill="#2c3e50" font-size="13">GND</text>
+  <text x="560" y="242" fill="#a07a00" font-size="13">DQ</text>
+
+  <!-- notes -->
+  <text x="30" y="420" fill="#222" font-size="14">Check before power-up: probe wire colours are not confirmed by the seller. Check the label or seller's info first.</text>
+  <text x="30" y="442" fill="#222" font-size="14">Use 3V3, not 5V: the ESP32 pins work at 3.3 V. Pin names on the board may read 4, D4 or IO4.</text>
+  <text x="30" y="464" fill="#555" font-size="13">Sources: DS18B20 datasheet (Dallas, rev 050400): 3.0-5.5 V, 4.7 kOhm pull-up. ESP32 datasheet v5.3: GPIO4 is not a strapping pin.</text>
+</svg>

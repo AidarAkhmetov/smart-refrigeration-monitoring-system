@@ -230,3 +230,9 @@ credentials/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local secrets for the ESP32 sketches (Wi-Fi password etc.)
+secrets.h
+
+# Local receiver database
+*.sqlite3
