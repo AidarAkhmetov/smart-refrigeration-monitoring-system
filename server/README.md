@@ -23,7 +23,7 @@ Settings, all optional (environment variables):
 | `RECEIVER_HOST` | `0.0.0.0` | Listen on the whole local network |
 | `RECEIVER_PORT` | `8000` | Port |
 | `RECEIVER_DB` | `receiver.sqlite3` | Database file |
-| `STALE_AFTER_S` | `60` | A board counts as offline after this many seconds without a message |
+| `STALE_AFTER_S` | `30` | A board counts as offline after this many seconds without a message. The board sends every 10 s, so 30 s means three messages missed in a row |
 
 ## What it does
 
@@ -49,7 +49,7 @@ python -m venv .venv
 
 ## First run (November 23, 2026)
 
-The board on my desk sent a message every 10 seconds and every one was stored. A board that stopped sending was shown as OFFLINE after 60 seconds.
+The board on my desk sent a message every 10 seconds and every one was stored. When I unplugged the board for about a minute, it was still shown as online. It turned out the gap was exactly 60 seconds and the limit was "more than 60", so it never got there. I lowered the limit to 30 seconds (three missed messages) and the page now shows the limit. In the next three tries the board was unplugged for 40, 52 and 123 seconds, all above the new limit.
 
 ## Not in this version
 

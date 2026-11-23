@@ -9,7 +9,7 @@ Configuration (environment variables):
     RECEIVER_HOST   address to listen on (default 0.0.0.0, the whole local network)
     RECEIVER_PORT   TCP port (default 8000)
     RECEIVER_DB     SQLite file (default receiver.sqlite3)
-    STALE_AFTER_S   a node counts as offline after this many seconds of silence (default 60)
+    STALE_AFTER_S   a node counts as offline after this many seconds of silence (default 30)
 
 Run from the server/ folder:  python -m receiver.app
 """
@@ -48,7 +48,7 @@ def device_to_dict(d: DeviceStatus, now: datetime, stale_after_s: int) -> dict[s
     }
 
 
-def render_page(devices: list[dict[str, Any]], now: datetime) -> str:
+def render_page(devices: list[dict[str, Any]], now: datetime, stale_after_s: int) -> str:
     local_now = now.astimezone()
     tz_label = local_now.strftime("UTC%z")
     rows = []
@@ -74,7 +74,8 @@ table{{border-collapse:collapse}}td,th{{border:1px solid #ccc;padding:6px 10px;t
 .ok{{color:#0a7d2c;font-weight:600}}.bad{{color:#c00;font-weight:600}}
 </style></head><body>
 <h1>Cold room monitor: nodes</h1>
-<p>Page time: {local_now:%Y-%m-%d %H:%M:%S} ({tz_label}). Refreshes every 10 s.</p>
+<p>Page time: {local_now:%Y-%m-%d %H:%M:%S} ({tz_label}). Refreshes every 10 s.
+A node is OFFLINE after {stale_after_s} s without a message.</p>
 <table><tr><th>Node</th><th>State</th><th>Last message</th><th>Wi-Fi</th>
 <th>Uptime</th><th>Messages</th><th>Restarts</th><th>Firmware</th></tr>
 {body}</table></body></html>"""
@@ -136,7 +137,7 @@ def make_handler(storage: Storage, stale_after_s: int) -> type[BaseHTTPRequestHa
                 )
             elif self.path == "/":
                 self._send(
-                    200, render_page(devices, now).encode("utf-8"), "text/html; charset=utf-8"
+                    200, render_page(devices, now, stale_after_s).encode("utf-8"), "text/html; charset=utf-8"
                 )
             else:
                 self._send_json(404, {"error": "not found"})
@@ -160,7 +161,7 @@ def main() -> None:
     host = os.environ.get("RECEIVER_HOST", "0.0.0.0")
     port = int(os.environ.get("RECEIVER_PORT", "8000"))
     db_path = os.environ.get("RECEIVER_DB", "receiver.sqlite3")
-    stale_after_s = int(os.environ.get("STALE_AFTER_S", "60"))
+    stale_after_s = int(os.environ.get("STALE_AFTER_S", "30"))
 
     storage = Storage(db_path)
     server = build_server(host, port, storage, stale_after_s)
