@@ -11,7 +11,7 @@ A low-cost monitoring system for small cold rooms. The first goal is simple and 
 | 3 | Sensor choice | 🔄 First candidate chosen |
 | 4 | **First build on the desk** | 🔄 **Now: board tested, waiting for the probes** |
 | 5 | Firmware for the ESP32 | ⬜ |
-| 6 | Server | ⬜ |
+| 6 | Server | 🔄 First version receives messages from the board |
 | 7 | App and phone alerts | ⬜ |
 | 8 | 2-3 week test in the cold room with battery sensors | ⬜ |
 | 9 | Final installation with wired sensors | ⬜ |
@@ -124,9 +124,8 @@ docs/            research and planning: what I found out, what I need, what I de
 docs/evidence/   photos of the nameplates that back up the site survey
 hardware/        what I actually build: parts, wiring, test results
 firmware/        programs for the ESP32
+server/          the program on the laptop that receives and stores the data
 ```
-
-`server/` will be added when I get to stage 6.
 
 How I work:
 

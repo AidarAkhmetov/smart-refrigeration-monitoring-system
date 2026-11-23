@@ -11,6 +11,7 @@ Short notes on what I did and what I learned, newest at the top. The full detail
 - Uploaded my first programs. One just prints the chip data and scans Wi-Fi: our home network is at -49 dBm. The temperature program also runs and correctly says it found 0 sensors.
 - One upload failed at the default speed. At 115200 it works every time.
 - Found out the board is too wide for one breadboard and I only have male-male wires. I need female-male wires.
+- Started the server early, before the probes arrive. The board now sends a short status message to my laptop every 10 seconds over Wi-Fi, and the laptop stores it and shows when the board goes offline. In the first version every board was called `esp32-000000000000`, because I read the MAC address before Wi-Fi was started. Fixed.
 
 ---
 
