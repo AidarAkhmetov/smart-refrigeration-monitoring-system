@@ -4,6 +4,16 @@ Short notes on what I did and what I learned, newest at the top. The full detail
 
 ---
 
+## November 26, 2026
+
+- The probe and the 4.7 kOhm resistors arrived. The probe's ID starts with `28`, so it really is a DS18B20. First reading: 20.9 °C in my room.
+- Building on the breadboard was harder than I thought. The board is so wide that only one hole is left next to each pin, and my wires kept landing one hole off, because the pins look shifted on a photo taken at an angle. I stopped guessing from photos and wrote a small test program that looks for the probe on the pins itself.
+- The status page now shows the temperature next to "online/offline". If the board goes offline, the old temperature turns grey.
+- Made a Telegram bot that runs on the ESP32 itself. It answers `/status`, warns when the temperature stays outside the limits for 30 s, and keeps reminding me every 15 s until I press "silence". Tested it with warm and hot water (49 °C and 70 °C): the alarms came.
+- In hot water many readings failed. The probe hangs on the ESP32's weak built-in pull-up instead of the 4.7 kOhm resistor right now. Next step: the proper wiring from the datasheet.
+
+---
+
 ## November 23, 2026
 
 - The parts arrived two days early, except the temperature probes and the resistors.

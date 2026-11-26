@@ -222,6 +222,74 @@ def test_http_unknown_path(base_url: str) -> None:
     assert status == 404
 
 
+def test_latest_readings_per_sensor(storage: Storage) -> None:
+    t0 = datetime(2026, 11, 26, 12, 0, tzinfo=timezone.utc)
+    other = "28D23ED30000001B"
+    storage.save(parse_message(make_msg(seq=1, readings=[reading(value=21.0)])), "ip", t0)
+    storage.save(
+        parse_message(
+            make_msg(seq=2, readings=[reading(value=20.5), reading(sensor_id=other, value=4.0)])
+        ),
+        "ip",
+        t0 + timedelta(seconds=10),
+    )
+    # heartbeat without readings must not hide the last known values
+    storage.save(parse_message(make_msg(seq=3)), "ip", t0 + timedelta(seconds=20))
+    latest = {r.sensor_id: r for r in storage.latest_readings()}
+    assert latest["28FF641E8216034B"].value == 20.5
+    assert latest[other].value == 4.0
+    assert latest[other].received_at == t0 + timedelta(seconds=10)
+
+
+def test_latest_reading_keeps_fault_status(storage: Storage) -> None:
+    storage.save(parse_message(make_msg(seq=1, readings=[reading(value=21.0)])), "ip")
+    storage.save(
+        parse_message(make_msg(seq=2, readings=[reading(value=None, status="disconnected")])),
+        "ip",
+    )
+    [r] = storage.latest_readings()
+    assert r.status == "disconnected"
+    assert r.value is None
+
+
+def test_latest_readings_separate_devices(storage: Storage) -> None:
+    storage.save(parse_message(make_msg(readings=[reading(value=1.0)])), "ip")
+    storage.save(
+        parse_message(make_msg(device_id="esp32-000000000002", readings=[reading(value=2.0)])),
+        "ip",
+    )
+    values = {r.device_id: r.value for r in storage.latest_readings()}
+    assert values == {"esp32-a8032a5d0424": 1.0, "esp32-000000000002": 2.0}
+
+
+def test_http_devices_include_readings(base_url: str) -> None:
+    post(f"{base_url}/api/v1/messages", json.dumps(make_msg(readings=[reading()])).encode())
+    with urllib.request.urlopen(f"{base_url}/api/v1/devices", timeout=5) as resp:
+        [dev] = json.loads(resp.read())["devices"]
+    assert dev["readings"][0]["value"] == -18.5
+    assert dev["readings"][0]["status"] == "ok"
+
+
+def test_status_page_shows_temperature(base_url: str) -> None:
+    post(
+        f"{base_url}/api/v1/messages",
+        json.dumps(make_msg(readings=[reading(value=20.88)])).encode(),
+    )
+    with urllib.request.urlopen(f"{base_url}/", timeout=5) as resp:
+        page = resp.read().decode()
+    assert "20.9 °C" in page
+
+
+def test_status_page_shows_probe_fault(base_url: str) -> None:
+    post(
+        f"{base_url}/api/v1/messages",
+        json.dumps(make_msg(readings=[reading(value=None, status="disconnected")])).encode(),
+    )
+    with urllib.request.urlopen(f"{base_url}/", timeout=5) as resp:
+        page = resp.read().decode()
+    assert "probe not answering" in page
+
+
 def test_status_page_renders(base_url: str) -> None:
     post(f"{base_url}/api/v1/messages", json.dumps(make_msg()).encode())
     with urllib.request.urlopen(f"{base_url}/", timeout=5) as resp:

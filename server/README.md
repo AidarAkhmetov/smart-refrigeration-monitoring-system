@@ -30,8 +30,8 @@ Settings, all optional (environment variables):
 | Address | What |
 |---|---|
 | `POST /api/v1/messages` | A board sends one message. Answers 201 when stored, 400 for broken JSON, 422 for a message that fails the checks, 413 if it is larger than 4 KB |
-| `GET /api/v1/devices` | Every board seen so far as JSON: online or not, last message, signal, number of messages and restarts |
-| `GET /` | The same as a page in the browser |
+| `GET /api/v1/devices` | Every board seen so far as JSON: online or not, last message, signal, number of messages and restarts, and the latest reading of each of its probes |
+| `GET /` | The same as a page in the browser, with the latest temperature of every probe. If the board is offline the last temperature turns grey, so an old number does not look like a live one |
 
 Message format and checks: [`receiver/schema.py`](receiver/schema.py). Every time is stored in UTC. The page shows local time with the time zone written next to it.
 
