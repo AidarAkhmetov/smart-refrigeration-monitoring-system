@@ -182,3 +182,17 @@ Why: I wanted to test the whole chain (board, Wi-Fi, laptop, database, "device o
 Not chosen yet: MQTT. It is common for sensors, but it needs a separate broker program. I'll look at it again in stage 5, together with keeping messages when the connection is down.
 
 Will check: where the server runs in the shop (laptop, Raspberry Pi or the second ESP32 as a receiver), and how to stop other devices on the shop Wi-Fi from sending fake messages.
+
+---
+
+## 2026-11-26: Phone alerts through a Telegram bot on the ESP32 itself
+
+Status: Provisional
+
+Decision: Alerts and the "phone app" are a Telegram bot. For now the ESP32 talks to the Telegram Bot API directly over HTTPS, with no server in between. It answers only my chat, checks Telegram's certificate, and keeps the bot token in `secrets.h`, which is never committed. Details: [firmware/cold-room-bot](../firmware/cold-room-bot/README.md).
+
+Why: Nobody in the shop has a computer that runs day and night. Telegram is already on my parents' phones, sends push notifications for free and needs no app of my own. A bot on the board is the fastest way to get real alerts.
+
+Not chosen yet: my own phone app, and the server-in-the-cloud version. The gap of this version is that the board can't report its own power or internet loss. For that, something outside the shop has to notice the silence: a small rented server (VPS) running the receiver and the bot. That comes later.
+
+Will check: the alarm limits for the cold room, after reading the ETC-974 setpoint and defrost settings, so a normal defrost doesn't raise an alarm.
