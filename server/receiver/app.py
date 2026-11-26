@@ -2,8 +2,9 @@
 
 Endpoints:
     POST /api/v1/messages  - an ESP32 node sends one message (JSON, schema v1)
-    GET  /api/v1/devices   - status of every node seen so far (JSON)
-    GET  /                 - simple status page, refreshes every 10 s
+    GET  /api/v1/devices   - status of every node seen so far, with the latest
+                             reading of each of its probes (JSON)
+    GET  /                 - simple status page with temperatures, refreshes every 10 s
 
 Configuration (environment variables):
     RECEIVER_HOST   address to listen on (default 0.0.0.0, the whole local network)
@@ -20,19 +21,36 @@ import html
 import json
 import logging
 import os
+from collections.abc import Sequence
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
 from .schema import ValidationError, parse_message
-from .storage import DeviceStatus, Storage
+from .storage import DeviceStatus, LatestReading, Storage
 
 log = logging.getLogger("receiver")
 
 MAX_BODY_BYTES = 4096
 
 
-def device_to_dict(d: DeviceStatus, now: datetime, stale_after_s: int) -> dict[str, Any]:
+def reading_to_dict(r: LatestReading, now: datetime) -> dict[str, Any]:
+    return {
+        "sensor_id": r.sensor_id,
+        "value": r.value,
+        "unit": r.unit,
+        "status": r.status,
+        "received_utc": r.received_at.isoformat(),
+        "seconds_ago": round((now - r.received_at).total_seconds()),
+    }
+
+
+def device_to_dict(
+    d: DeviceStatus,
+    now: datetime,
+    stale_after_s: int,
+    readings: Sequence[LatestReading] = (),
+) -> dict[str, Any]:
     age_s = (now - d.last_seen).total_seconds()
     return {
         "device_id": d.device_id,
@@ -45,7 +63,32 @@ def device_to_dict(d: DeviceStatus, now: datetime, stale_after_s: int) -> dict[s
         "rssi_dbm": d.rssi_dbm,
         "message_count": d.message_count,
         "restarts": d.restarts,
+        "readings": [reading_to_dict(r, now) for r in readings],
     }
+
+
+STATUS_TEXT = {
+    "disconnected": "probe not answering",
+    "suspect_85": "suspect +85 °C (power-up value)",
+    "out_of_range": "out of range",
+}
+
+
+def render_temperatures(d: dict[str, Any]) -> str:
+    """One line per probe: latest value, or the fault, with its age."""
+    if not d["readings"]:
+        return "<span class='dim'>no probe</span>"
+    lines = []
+    for r in d["readings"]:
+        sensor = html.escape(r["sensor_id"][-4:])
+        age = f"<span class='dim'>{r['seconds_ago']} s ago, probe …{sensor}</span>"
+        if r["status"] == "ok" and r["value"] is not None:
+            css = "temp" if d["online"] else "temp dim"
+            lines.append(f"<span class='{css}'>{r['value']:.1f} °C</span> {age}")
+        else:
+            text = STATUS_TEXT.get(r["status"], r["status"])
+            lines.append(f"<span class='bad'>{html.escape(text)}</span> {age}")
+    return "<br>".join(lines)
 
 
 def render_page(devices: list[dict[str, Any]], now: datetime, stale_after_s: int) -> str:
@@ -58,12 +101,13 @@ def render_page(devices: list[dict[str, Any]], now: datetime, stale_after_s: int
         rows.append(
             f"<tr><td>{html.escape(d['device_id'])}</td>"
             f"<td class='{css}'>{state}</td>"
+            f"<td>{render_temperatures(d)}</td>"
             f"<td>{last_local:%Y-%m-%d %H:%M:%S} ({d['seconds_since_last_message']} s ago)</td>"
             f"<td>{d['rssi_dbm']} dBm</td><td>{d['uptime_s']} s</td>"
             f"<td>{d['message_count']}</td><td>{d['restarts']}</td>"
             f"<td>{html.escape(d['fw_version'])}</td></tr>"
         )
-    body = "".join(rows) or "<tr><td colspan='8'>No messages yet</td></tr>"
+    body = "".join(rows) or "<tr><td colspan='9'>No messages yet</td></tr>"
     return f"""<!doctype html>
 <html><head><meta charset="utf-8"><meta http-equiv="refresh" content="10">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -72,11 +116,13 @@ def render_page(devices: list[dict[str, Any]], now: datetime, stale_after_s: int
 body{{font-family:system-ui,sans-serif;margin:16px;background:#fff;color:#222}}
 table{{border-collapse:collapse}}td,th{{border:1px solid #ccc;padding:6px 10px;text-align:left}}
 .ok{{color:#0a7d2c;font-weight:600}}.bad{{color:#c00;font-weight:600}}
+.temp{{font-size:1.4em;font-weight:700}}.dim{{color:#888;font-size:0.9em}}
+.temp.dim{{font-size:1.4em}}
 </style></head><body>
 <h1>Cold room monitor: nodes</h1>
 <p>Page time: {local_now:%Y-%m-%d %H:%M:%S} ({tz_label}). Refreshes every 10 s.
 A node is OFFLINE after {stale_after_s} s without a message.</p>
-<table><tr><th>Node</th><th>State</th><th>Last message</th><th>Wi-Fi</th>
+<table><tr><th>Node</th><th>State</th><th>Temperature</th><th>Last message</th><th>Wi-Fi</th>
 <th>Uptime</th><th>Messages</th><th>Restarts</th><th>Firmware</th></tr>
 {body}</table></body></html>"""
 
@@ -130,7 +176,13 @@ def make_handler(storage: Storage, stale_after_s: int) -> type[BaseHTTPRequestHa
 
         def do_GET(self) -> None:  # noqa: N802
             now = datetime.now(timezone.utc)
-            devices = [device_to_dict(d, now, stale_after_s) for d in storage.devices()]
+            by_device: dict[str, list[LatestReading]] = {}
+            for r in storage.latest_readings():
+                by_device.setdefault(r.device_id, []).append(r)
+            devices = [
+                device_to_dict(d, now, stale_after_s, by_device.get(d.device_id, []))
+                for d in storage.devices()
+            ]
             if self.path == "/api/v1/devices":
                 self._send_json(
                     200, {"now_utc": now.isoformat(timespec="seconds"), "devices": devices}

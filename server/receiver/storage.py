@@ -47,6 +47,16 @@ class DeviceStatus:
     restarts: int  # times seq went backwards, i.e. the node rebooted
 
 
+@dataclass(frozen=True)
+class LatestReading:
+    device_id: str
+    sensor_id: str
+    value: float | None  # degC; None when the sensor gave no value
+    unit: str
+    status: str
+    received_at: datetime  # UTC, server receive time of the message
+
+
 class Storage:
     """Thread-safe wrapper around one SQLite connection."""
 
@@ -89,6 +99,30 @@ class Storage:
                 ],
             )
         return message_id
+
+    def latest_readings(self) -> list[LatestReading]:
+        """Most recent reading of every (node, sensor) pair, ordered by node and sensor."""
+        with self._lock:
+            rows = self._conn.execute(
+                "SELECT m.device_id, r.sensor_id, r.value, r.unit, r.status, m.received_at"
+                " FROM readings r JOIN messages m ON m.id = r.message_id"
+                " WHERE r.rowid IN ("
+                "   SELECT MAX(r2.rowid) FROM readings r2"
+                "   JOIN messages m2 ON m2.id = r2.message_id"
+                "   GROUP BY m2.device_id, r2.sensor_id)"
+                " ORDER BY m.device_id, r.sensor_id"
+            ).fetchall()
+        return [
+            LatestReading(
+                device_id=row["device_id"],
+                sensor_id=row["sensor_id"],
+                value=row["value"],
+                unit=row["unit"],
+                status=row["status"],
+                received_at=datetime.fromisoformat(row["received_at"]),
+            )
+            for row in rows
+        ]
 
     def devices(self) -> list[DeviceStatus]:
         """Latest state of every node, with message and restart counts."""
