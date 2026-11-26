@@ -4,7 +4,7 @@ Everything I actually build for the project: parts lists, wiring and test result
 
 | File | Stage | Status |
 |---|---|---|
-| [bench-prototype.md](bench-prototype.md) | 4. First build on the desk: ESP32 and temperature sensors on a breadboard | 🔄 Parts chosen, ordering |
+| [bench-prototype.md](bench-prototype.md) | 4. First build on the desk: ESP32 and temperature sensors on a breadboard | 🔄 Built. The probe reads, the proper wiring with the resistor is next |
 
 Coming later: the sensor node for the 2-3 week test in the cold room (stage 8) and the final wired installation (stage 9).
 
